@@ -14,6 +14,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <style>
     body {
         background-image: url(https://kidsgoflash.com/wp-content/uploads/2017/02/kidsgoflash_sky_birds2.jpg);
@@ -30,6 +39,105 @@
 
     .Practice-container section:not(:first-child) {
         margin-top: 45px;
+    }
+
+    .modal-confirm {
+        color: #636363;
+        width: 325px;
+        font-size: 14px;
+    }
+
+        .modal-confirm .modal-content {
+            padding: 20px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .modal-confirm .modal-header {
+            border-bottom: none;
+            position: relative;
+        }
+
+        .modal-confirm h4 {
+            text-align: center;
+            font-size: 26px;
+            margin: 30px 0 -15px;
+        }
+
+        .modal-confirm .form-control, .modal-confirm .btn {
+            min-height: 40px;
+            border-radius: 3px;
+        }
+
+        .modal-confirm .close {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        .modal-confirm .modal-footer {
+            border: none;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .modal-confirm .icon-box {
+            color: #fff;
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: -70px;
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            z-index: 9;
+            background: #82ce34;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+        }
+
+            .modal-confirm .icon-box i {
+                font-size: 58px;
+                position: relative;
+                top: 3px;
+            }
+
+        .modal-confirm.modal-dialog {
+            margin-top: 80px;
+        }
+
+        .modal-confirm .btn {
+            color: #fff;
+            border-radius: 4px;
+            background: #82ce34;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            border: none;
+        }
+
+            .modal-confirm .btn:hover, .modal-confirm .btn:focus {
+                background: #6fb32b;
+                outline: none;
+            }
+
+    .trigger-btn {
+        display: inline-block;
+        margin: 100px auto;
+    }
+
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1030;
+        background-color: #333333;
+        opacity: 0.1;
     }
 </style>
 
@@ -68,7 +176,7 @@
                 <h4><span id="hlb">@plt.THOIGIAN</span>:<span id="plb">00</span></h4>
             </div>
         </div>
-        <div class="Practice-container" style="border-radius:2rem; line-height:30px; overflow:auto; height:555px;width:100%;margin-top:20px;background-image:url(/Img/greenboard.png);background-repeat:no-repeat;background-size:100% 100%;display:flex;flex-direction:row;justify-content:space-between;flex-wrap:wrap;">
+        <div class="Practice-container" style="border-radius:2rem; line-height:30px; overflow:hidden; height:555px;width:100%;margin-top:20px;background-image:url(/Img/greenboard.png);background-repeat:no-repeat;background-size:100% 100%;display:flex;flex-direction:row;justify-content:space-between;flex-wrap:wrap;">
             @{
                 int i1 = 1;
 
@@ -94,7 +202,7 @@
                                     list.Add(item1);
                                 }
                                 var listRand = list.OrderBy(t => rdn.Next()).ToList();
-                                for (int i3 =0;i3< listRand.Count();i3++)
+                                for (int i3 = 0; i3 < listRand.Count(); i3++)
                                 {
                                     <div style="width:50%;height:50%;padding:5px;padding:10px;">
                                         @*<button style="width:100%;height:100%;" id="@item.TENTV" class="@item.NGHIATV">@item2.TENTV</button>*@
@@ -131,7 +239,7 @@
                 }
             </div>
         </div>
-        <button style="margin:0 20px 0 20px;width:195px;padding:10px 0;border-radius:.5rem;background-color:rgb(128, 255, 255)">
+        <button style="margin:0 20px 0 20px;width:195px;padding:10px 0;border-radius:.5rem;background-color:rgb(128, 255, 255)" data-toggle="modal" data-target="#mi-modal">
             Nộp bài
         </button>
     </div>
@@ -219,6 +327,55 @@
         }
     </ul>*@
 
+<div id="myModal1" class="modal">
+    @using (Html.BeginForm("FinishExam", "Exam"))
+    {
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="icon-box">
+                        <i class="material-icons">&#xE876;</i>
+                    </div>
+                    <h4 class="modal-title w-100">Chúc mừng !</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">Bạn vừa hoàn thành bài luyện tập.</p>
+                    <p class="text-center">Số điểm bạn đạt được là : <span class="soctld"></span></p>
+                    <input type="text" name="diem" class="diem" value="" style="height:0;width:0;position:absolute;opacity:0;" />
+                    <input type="text" name="phonglt" class="phonglt" value="@tuple.Item4" style="height:0;width:0;position:absolute;opacity:0;" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success btn-block" value="Hoàn tất"/>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<div class="modal " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    @using (Html.BeginForm("FinishExam", "Exam"))
+    {
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Thông báo</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn đã chắc chắn muộn nộp bài ?</p>
+                    <input type="text" name="diem" class="diem" value="" style="height:0;width:0;position:absolute;opacity:0;" />
+                    <input type="text" name="phonglt" class="phonglt" value="@tuple.Item4" style="height:0;width:0;position:absolute;opacity:0;" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" style="width:80px;" class="btn btn-primary" id="modal-btn-no" value="Nộp bài">
+                    <button type="button" style="width:80px;" class="btn btn-light" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
 <script>
     $(document).ready(function () {
         var temp = 1;
@@ -232,9 +389,9 @@
         var tg = parseInt($(`#hlb`).text()) * 60;
         var dem = 0;
         var check = false;
-        
+        var ct = true;
         var demnguoc = setInterval(function () {
-           
+
                 tg--;
                 var hlb = parseInt(tg / 60);
                 var plb = tg - 60 * hlb;
@@ -246,6 +403,9 @@
                 }
                 if (tg == 0) {
                     clearInterval(demnguoc);
+                    $(`.soctld`).text(dem);
+                    $(`.diem`).val(dem);
+                    $(`#myModal1`).modal('show');
                 }
 
         },1000);
@@ -267,20 +427,20 @@
             }
             console.log(dem);
         });
-        
+
         $(`.btn-num-container`).children().children().children().children("#" + bd).css("background-color", "rgba(0, 0, 0, 0.2)");
 
         $(`.btn-num-container`).children().children().children().children("div").click(function () {
             var color = $(`.btn-num-container`).children().children().children().children("#" + bd).css("background-color");
             check = false;
-            
+
             if (color.toString() == "rgba(0, 0, 0, 0.2)") {
                 $(`.btn-num-container`).children().children().children().children("#" + bd).css("background-color", "white");
             }
             if ($(this).css("background-color").toString() != "rgb(0, 0, 0)") {
                 $(this).css("background-color", "rgba(0, 0, 0, 0.2)");
             }
-            
+
             bd = $(this).attr("id");
             $(`#schtl`).text($(this).attr("id"));
             document.getElementById($(this).attr("id")).scrollIntoView();
@@ -394,7 +554,15 @@
                 alert("Thêm thành công");
                 $.get(`@Url.Action("addWord", "Exam")`, { idcd: selectedchude, tuvung : selectedtuvung ,idphong : @tuple.Item4});
             }
-            });
         });
+
+        $(`.btn-num-container`).children("button").click(function () {
+            $(`.diem`).val(dem);
+        });
+
+    });
+
+
+    
 
 </script>

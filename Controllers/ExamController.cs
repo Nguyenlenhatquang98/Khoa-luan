@@ -71,5 +71,20 @@ namespace KhoaLuanTotNghiep.Controllers
         }
 
 
+        public ActionResult FinishExam(string diem, string phonglt)
+        {
+            int chuyendiem = Convert.ToInt32(diem);
+            int chuyenphonglt = Convert.ToInt32(phonglt);
+            TAIKHOAN taikhoan = model.TAIKHOANs.Where(t => t.USING == true).SingleOrDefault();
+            TAIKHOANPHONGLUYENTAP tkplt = model.TAIKHOANPHONGLUYENTAPs.Where(t => t.IDPLT == chuyenphonglt).Where(t => t.IDTK == taikhoan.IDTK).SingleOrDefault();
+            if(chuyendiem > tkplt.DIEMTHI)
+            {
+                tkplt.DIEMTHI = chuyendiem;
+            }
+            model.SaveChanges();
+            return RedirectToAction("ExamRoom", new { id = chuyenphonglt });
+        }
+
+
     }
 }
