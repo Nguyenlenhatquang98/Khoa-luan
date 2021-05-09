@@ -1,0 +1,399 @@
+﻿@model KhoaLuanTotNghiep.Models.THONGTINTAIKHOAN
+@using KhoaLuanTotNghiep.Models;
+
+@{
+    ViewBag.Title = "ExamRoom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Model1 model = new Model1();
+    Random rdn = new Random();
+    List<CHUDE> listcd = model.CHUDEs.Where(t => t.IDTK == Model.IDTK).ToList();
+}
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+<style>
+    body {
+        background-image: url(https://kidsgoflash.com/wp-content/uploads/2017/02/kidsgoflash_sky_birds2.jpg);
+        background-color: rgba(255,255,255,0.7);
+        background-blend-mode: screen;
+        background-position: center top;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .Exam a {
+        background-color: rgb(230, 230, 230);
+    }
+
+    .Practice-container section:not(:first-child) {
+        margin-top: 45px;
+    }
+</style>
+
+@{
+    Tuple<List<TAIKHOANPHONGLUYENTAP>, List<TUVUNGPHONGLUYENTAP>, int, int> tuple = ViewData["tuple"] as Tuple<List<TAIKHOANPHONGLUYENTAP>, List<TUVUNGPHONGLUYENTAP>, int, int>;
+    var socauhoi = 0;
+    var cauhoibandau = 0;
+    PHONGLUYENTAP plt = model.PHONGLUYENTAPs.Where(t => t.IDPLT == tuple.Item4).SingleOrDefault();
+    if (tuple.Item2.Count() > tuple.Item3)
+    {
+        socauhoi = tuple.Item3;
+    }
+    else
+    {
+        socauhoi = tuple.Item2.Count();
+    }
+    if (socauhoi == 0)
+    {
+        cauhoibandau = 0;
+    }
+    else
+    {
+        cauhoibandau = 1;
+    }
+}
+<div style="width:85%;height:695px;display:flex;flex-direction:row;">
+    <div style="width:75%;margin-top:20px;padding:0 25px;background-color:rgba(222, 236, 237,0.8);">
+        <div class="notification" style="height:50px;width:100%;display:flex;flex-direction:row;justify-content:space-between;margin-top:25px;background-color:white;border:1px solid grey;">
+            <div class="tq" style="display:flex;flex-direction:row;align-items:center;margin-left:30px;">
+                <h4>@plt.TENPHONG</h4>
+            </div>
+            <div class="tq" style="display: flex; align-items: center;position:absolute;margin-left:350px;margin-top:5px;">
+                <h4><span id="schtl">@cauhoibandau</span> / <span id="sch">@socauhoi</span></h4>
+            </div>
+            <div class="tq tg" style="display:flex;align-items:center;margin-right:30px;">
+                <h4><span id="hlb">@plt.THOIGIAN</span>:<span id="plb">00</span></h4>
+            </div>
+        </div>
+        <div class="Practice-container" style="border-radius:2rem; line-height:30px; overflow:auto; height:555px;width:100%;margin-top:20px;background-image:url(/Img/greenboard.png);background-repeat:no-repeat;background-size:100% 100%;display:flex;flex-direction:row;justify-content:space-between;flex-wrap:wrap;">
+            @{
+                int i1 = 1;
+
+            }
+            @foreach (var item in tuple.Item2.Take(socauhoi).ToList())
+            {
+                <div id="@(i1)" style="width:100%;height:100%;padding:45px;">
+                    <section style="width:100%;height:100%;position:relative;">
+
+                        <div class="container-word" style="color: white; height: 30%;width:60%; margin: 30px auto; display: flex; justify-content: center; align-items: center; background-image: url( @item.ANHTUVUNG )">
+                            <h1>@item.NGHIATV</h1>
+                        </div>
+
+                        <div class="btn-container" style="position:absolute;bottom:50px;width:90%;height:50%;display:flex;flex-wrap:wrap;margin-left:50%;transform:translateX(-50%);">
+
+                            @{
+                                List<TUVUNGPHONGLUYENTAP> list = new List<TUVUNGPHONGLUYENTAP>();
+                                list.Add(item);
+                                List<TUVUNGPHONGLUYENTAP> list2 = model.TUVUNGPHONGLUYENTAPs.Where(t => t.TENTV != item.TENTV).ToList();
+                                var list3 = list2.OrderBy(t => rdn.Next()).Take(3).ToList();
+                                foreach (var item1 in list3)
+                                {
+                                    list.Add(item1);
+                                }
+                                var listRand = list.OrderBy(t => rdn.Next()).ToList();
+                                for (int i3 =0;i3< listRand.Count();i3++)
+                                {
+                                    <div style="width:50%;height:50%;padding:5px;padding:10px;">
+                                        @*<button style="width:100%;height:100%;" id="@item.TENTV" class="@item.NGHIATV">@item2.TENTV</button>*@
+                                        <div id="@i1" style="border:1px solid white;width:100%;height:100%;display:flex;justify-content:space-around;align-items:center;">
+                                            <input type="radio" id="@listRand[i3].TENTV" class="@item.TENTV" name="@item.TENTV" value="@listRand[i3].TENTV" style="width:20px;height:20px;">
+                                            <label for="@listRand[i3].TENTV" style="font-size:1.5rem;margin-left:30px;font-weight:600;color:white;">@listRand[i3].TENTV</label><br>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </section>
+                </div>
+
+                i1++;
+            }
+            @*<section id="@(i1+1)" style="width:100%;height:100%;display:flex;justify-content:center;align-items:center;">
+
+                    <h1>Kết thúc</h1>
+                </section>*@
+
+        </div>
+    </div>
+    <div class="btn-num-container" style="width:22.5%;margin:20px 0 0px 20px;background-color:rgba(222, 236, 237,0.8);">
+        <div style="margin:25px 20px;border:1px solid green;height:550px;background-color:white;padding:20px;">
+            <div style="width:100%;display:flex;flex-wrap:wrap;justify-content:flex-start;overflow:auto;">
+                @for (int i3 = 1; i3 <= plt.SOCAUHOI; i3++)
+                {
+                    <div style="width:33%;height:50px;display:flex;justify-content:center;align-items:center;">
+                        <div id="@i3" style="width:40px;height:40px;border:1px solid grey;border-radius:2rem;display:flex;justify-content:center;align-items:center;">
+                            @i3
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <button style="margin:0 20px 0 20px;width:195px;padding:10px 0;border-radius:.5rem;background-color:rgb(128, 255, 255)">
+            Nộp bài
+        </button>
+    </div>
+</div>
+
+<div class="ds-tv" style="margin-right:-50px;margin-top:-694px;width:18%;float:right;height:711px;position:relative;">
+    <div id="card-front" class="card front" style="width:100%; height:100%;background-color:rgba(255,255,255,0.7)">
+        <header style="border:1px solid gray; height:50px; display:flex;justify-content:center;align-items:center;font-weight:600; font-size:1.5rem;">Bảng xếp hạng</header>
+        <div class="account-container" style="border:1px solid gray; height:660px; overflow:auto;">
+            <ul style="list-style:none;margin-left:-40px;">
+                @{
+                    int i = 0;
+                }
+                @foreach (var item in tuple.Item1.OrderByDescending(t => t.DIEMTHI).ToList())
+                {
+                    i++;
+                    THONGTINTAIKHOAN accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                    <li style="text-align:center; padding:5px;">
+                        <div style="background-color:#f2f2f2;height:50px;margin-bottom:-15px; display:flex;flex-direction:row;justify-content:space-around;align-items:center;">
+                            <h5 style="margin-top:5px;">@i.</h5>
+                            <h5 style="margin-top:5px;">@accountinfo.TEN</h5>
+                            <p style="margin-top:15px;">@item.DIEMTHI</p>
+                        </div>
+                    </li>
+                    <hr style="margin-bottom:1px;" />
+                }
+            </ul>
+        </div>
+
+    </div>
+    <div id="card-back" class="card back" style="width:100%; height:100%;background-color:rgba(255,255,255,0.7) ;">
+        <header style="border:1px solid gray; height:50px; display:flex;justify-content:center;align-items:center;font-weight:600; font-size:1.5rem;">Kết quả chi tiêt</header>
+        <div class="word-container" style="border:1px solid gray; height:660px;">
+            <div style="height:92%; overflow:auto;">
+                <h2 style="font-size:1.25rem;">Các từ không chính xác :</h2>
+                <ul id="wrong-contain" style="list-style:none;margin-left:-40px;color:green;">
+                </ul>
+                <h2 style="font-size:1.25rem;">Các từ chính xác :</h2>
+                <ul id="right-contain" style="list-style:none;margin-left:-40px;color:darkred">
+                </ul>
+            </div>
+            <div style="border:1px solid gray;height:8%;padding:5px;display:flex;justify-content:space-around;">
+                <select style="height: 100%;width:45%;border-radius:.5rem;" id="tuvung">
+                    <option value="" disabled selected>Từ vựng</option>
+
+                </select>
+                <select style="height: 100%;width:45%;border-radius:.5rem;" id="chude">
+                    <option value="" disabled selected>Chủ đề</option>
+                    @foreach (var item in listcd)
+                    {
+                        <option value="@item.IDCD">@item.TENCD</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@*<ul>
+
+
+        @foreach (var item in tuple.Item2.Take(tuple.Item3).ToList())
+        {
+            <li>@item.NGHIATV</li>
+            <ul>
+                @{
+                    List<TUVUNGPHONGTHI> list = new List<TUVUNGPHONGTHI>();
+                    list.Add(item);
+                    List<TUVUNGPHONGTHI> list2 = model.TUVUNGPHONGTHIs.Where(t => t.TENTV != item.TENTV).ToList();
+                    var list3 = list2.OrderBy(t => rdn.Next()).Take(3).ToList();
+                    foreach (var item1 in list3)
+                    {
+                        list.Add(item1);
+                    }
+
+                    foreach (var item2 in list.OrderBy(t => rdn.Next()).ToList())
+                    {
+                        <li>@item2.TENTV</li>
+                    }
+                }
+
+
+            </ul>
+        }
+    </ul>*@
+
+<script>
+    $(document).ready(function () {
+            var temp = 1;
+        var cd = 0; var cs = 0;
+
+        var finish = false;
+        var selectedtuvung;
+        var selectedchude;
+        var bd = 1;
+        var tg = parseInt($(`#hlb`).text()) * 60;
+        var dem = 0;
+        var check = false;
+        
+        var demnguoc = setInterval(function () {
+           
+                tg--;
+                var hlb = parseInt(tg / 60);
+                var plb = tg - 60 * hlb;
+                if (plb < 10) {
+                    $(`.notification`).children(`.tg`).children("h4").text(hlb + ":0" + plb);
+                }
+                else {
+                    $(`.notification`).children(`.tg`).children("h4").text(hlb + ":" + plb);
+                }
+                if (tg == 0) {
+                    clearInterval(demnguoc);
+                }
+
+        },1000);
+
+        $(`.btn-container`).children().children().children("input").click(function () {
+            $(`.btn-num-container`).children().children().children().children(`#` + $(this).parent().attr("id")).css({ "background-color": "black", "color": "white" });
+
+            if ($(this).attr("id").toString() == $(this).attr("class").toString()) {
+                if (check == false) {
+                    dem++;
+                    check = true;
+                }
+            }
+            else {
+                if (check == true) {
+                    dem--;
+                    check = false;
+                }
+            }
+            console.log(dem);
+        });
+        
+        $(`.btn-num-container`).children().children().children().children("#" + bd).css("background-color", "rgba(0, 0, 0, 0.2)");
+
+        $(`.btn-num-container`).children().children().children().children("div").click(function () {
+            var color = $(`.btn-num-container`).children().children().children().children("#" + bd).css("background-color");
+            check = false;
+            
+            if (color.toString() == "rgba(0, 0, 0, 0.2)") {
+                $(`.btn-num-container`).children().children().children().children("#" + bd).css("background-color", "white");
+            }
+            if ($(this).css("background-color").toString() != "rgb(0, 0, 0)") {
+                $(this).css("background-color", "rgba(0, 0, 0, 0.2)");
+            }
+            
+            bd = $(this).attr("id");
+            $(`#schtl`).text($(this).attr("id"));
+            document.getElementById($(this).attr("id")).scrollIntoView();
+            });
+
+
+            $(`.Word`).click(function () {
+                $(`.front`).css("transform", "rotateY(180deg)");
+                $(`.back`).css("transform", "rotateY(0)");
+            });
+            $(`.rank`).click(function () {
+                $(`.front`).css("transform", "rotateY(0)");
+                $(`.back`).css("transform", "rotateY(-180deg)");
+            });
+            $("select#tuvung").change(function () {
+                selectedtuvung = $(this).children("option:selected").val();
+
+            });
+            $("select#chude").change(function () {
+                selectedchude = $(this).children("option:selected").val();
+
+            });
+
+
+            $(`.Practice-container`).children().children().children().children("button").click(function () {
+
+                temp++;
+                if ($(`.notification`).children().children().children("#schtl").text() != $(`.notification`).children().children().children("#sch").text()) {
+                    if ($(this).text() == $(this).attr("id")) {
+                        cd++;
+                        $(`.notification`).children().children().children("#tld").text(cd);
+                        console.log("true");
+                        var node = document.createElement("li");
+                        var textnode = document.createTextNode($(this).attr("id") + " : " + $(this).attr("class"));
+                        node.className = "right-word";
+                        node.appendChild(textnode);
+                        document.getElementById("right-contain").appendChild(node);
+                        var node1 = document.createElement("option");
+                        var textnode1 = document.createTextNode($(this).attr("id"));
+                        node1.value = $(this).attr("id");
+                        node1.appendChild(textnode1);
+                        document.getElementById("tuvung").appendChild(node1);
+                    }
+                    else {
+                        cs++;
+                        $(`.notification`).children().children().children("#tls").text(cs);
+                        console.log("false");
+                        var node = document.createElement("li");
+                        var textnode = document.createTextNode($(this).attr("id") + " : " + $(this).attr("class"));
+                        node.className = "wrong-word";
+                        node.appendChild(textnode);
+                        document.getElementById("wrong-contain").appendChild(node);
+                        var node1 = document.createElement("option");
+                        var textnode1 = document.createTextNode($(this).attr("id"));
+                        node1.value = $(this).attr("id");
+                        node1.appendChild(textnode1);
+                        document.getElementById("tuvung").appendChild(node1);
+                    }
+
+                    document.getElementById(temp).scrollIntoView({ behavior: "smooth" });
+                    $(`.notification`).children().children().children("#schtl").text(temp);
+                }
+                else {
+                    if (finish == false) {
+                        if ($(this).text() == $(this).attr("id")) {
+                            cd++;
+                            $(`.notification`).children().children().children("#tld").text(cd);
+                            console.log("true");
+                            var node = document.createElement("li");
+                            var textnode = document.createTextNode($(this).attr("id") + " : " + $(this).attr("class"));
+                            node.className = "right-word";
+                            node.appendChild(textnode);
+                            document.getElementById("right-contain").appendChild(node);
+                            var node1 = document.createElement("option");
+                            var textnode1 = document.createTextNode($(this).attr("id"));
+                            node1.value = $(this).attr("id");
+                            node1.appendChild(textnode1);
+                            document.getElementById("tuvung").appendChild(node1);
+                        }
+                        else {
+                            cs++;
+                            $(`.notification`).children().children().children("#tls").text(cs);
+                            console.log("false");
+                            var node = document.createElement("li");
+                            var textnode = document.createTextNode($(this).attr("id") + " : " + $(this).attr("class"));
+                            node.className = "wrong-word";
+                            node.id = $(this).attr("id");
+                            node.appendChild(textnode);
+                            document.getElementById("wrong-contain").appendChild(node);
+                            var node1 = document.createElement("option");
+                            var textnode1 = document.createTextNode($(this).attr("id"));
+                            node1.value = $(this).attr("id");
+                            node1.appendChild(textnode1);
+                            document.getElementById("tuvung").appendChild(node1);
+                        }
+                        document.getElementById(temp).scrollIntoView({ behavior: "smooth" });
+                        finish = true;
+                    }
+
+                }
+            });
+
+        $(`#card-front`).children().children(".refresh").click(function () {
+               $.get(`@Url.Action("SaveResult", "Exam")`, { idp: @tuple.Item4 , scd: $(`.notification`).children().children().children("#tld").text() });
+                location.reload();
+                location.reload();
+            });
+
+        $(`#card-back`).children().children(".share").click(function () {
+            if (selectedtuvung != null && selectedchude != null) {
+                alert("Thêm thành công");
+                $.get(`@Url.Action("addWord", "Exam")`, { idcd: selectedchude, tuvung : selectedtuvung ,idphong : @tuple.Item4});
+            }
+            });
+        });
+
+</script>

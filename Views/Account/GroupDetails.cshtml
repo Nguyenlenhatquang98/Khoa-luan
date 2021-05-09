@@ -1,0 +1,251 @@
+﻿@model KhoaLuanTotNghiep.Models.THONGTINTAIKHOAN
+@using KhoaLuanTotNghiep.Models;
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+
+@{
+    ViewBag.Title = "GroupDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Model1 model = new Model1();
+    Tuple<List<TUVUNGNHOM>, List<THONGTINTAIKHOAN>, int> tuple = ViewData["tuple"] as Tuple<List<TUVUNGNHOM>, List<THONGTINTAIKHOAN>, int>;
+    List<TUVUNGNHOM> listTV = tuple.Item1;
+    TAIKHOAN account = model.TAIKHOANs.Where(t => t.USING == true).SingleOrDefault();
+    List<CHUDE> listcd = model.CHUDEs.Where(t => t.IDTK == account.IDTK).ToList();
+}
+<style>
+    .Group a{
+        background-color: rgb(230, 230, 230);
+    }
+
+
+</style>
+
+
+
+<div class="container1" style="display:flex;flex-direction:row;margin-top:20px;margin-left:20px;width: 1265px;">
+    @using (Html.BeginForm("SearchWord", "Account"))
+    {
+        <input id="idcd" name="idn" style="opacity:0;width:0;" value="@tuple.Item3" />
+        <div style="width:800px;height:600px;overflow:hidden;display:flex;flex-direction:row;flex-wrap:wrap;padding:0;">
+
+            @if (listTV != null)
+            {
+
+
+                <div class="container-fluid" style=" margin-right: 400px; height: 40px; width: 100%; display: flex; align-items: center; justify-content: flex-end; position: fixed; right: 60px;">
+                    <h1 style="margin-right:70px;">Danh sách thẻ chia sẻ</h1>
+                    <input id="searchword" type="text" name="searchWord1" placeholder="Word ..." style="border-radius:2rem; padding-left:20px;outline:none;width:22%;height:100%;border:none;background-color:rgb(234, 234, 225);" />
+                    <input id="searchword-btn" type="submit" value="Search" style="position:absolute;right:15px;height:100%;border-radius:2rem;width:5%;display:flex;align-items:center;justify-content:center; background-color:rgb(30, 47, 47); color:white;" />
+
+                </div>
+
+
+                <div style="width:100%;height:500px;display:flex;flex-direction:row;flex-wrap:wrap;margin-top:50px;overflow:auto;">
+                    @for (int i = 0; i < listTV.Count(); i++)
+                    {
+                        <div class="flashcard-item1" id="@listTV[i].IDTV" style="width:17%; height:180px; margin-bottom:30px;text-align:center;border-radius:2rem;  display:flex; justify-content:center;align-items:center;">
+                            <div id="front" class="card front" style="width:100%;height:100%;border-radius:2rem;background-image:url('@listTV[i].ANHTUVUNG');background-size:100% 100%;display:flex;justify-content:center;">
+                                <h1 id="tentv" style="font-family: 'Courgette', cursive; text-transform:capitalize;font-size:1.75rem;">@listTV[i].TENTV</h1>
+                                <p id="anhtv" style="opacity:0;font-size:.1px;margin-top:-10px;">@listTV[i].ANHTUVUNG</p>
+                            </div>
+                            <div id="back" class="card back" style="width:100%;height:100%;border-radius:2rem;background-color:rgb(247, 247, 247);display:flex;justify-content:center;">
+                                <h3 id="nghiatv" style="font-size:1rem;">@listTV[i].NGHIATV</h3><hr />
+                                <h4 id="vdtv" style="font-size:1rem;">@listTV[i].VDTV</h4>
+                                <div class="sound-container" id="sound-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16">
+                                        <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z" />
+                                        <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z" />
+                                        <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            }
+        </div>
+    }
+
+
+<div id="card-container" style="background-color:rgb(247, 247, 247); margin-left:50px;width:420px;height:700px;">
+
+
+    <div class="card-container">
+
+        <div class="card-info front-info">
+            @using (Html.BeginForm("DeleteTV", "Account"))
+            {
+                <div class="flashcard-item" style="border:1px solid gray; margin: 20px 20px 0 20px; height:500px;background-image:url('');display:flex;flex-direction:column;
+        flex-direction:column;align-items:center;border-radius:2rem;background-size:100% 100%">
+
+                    <p id="idtv" style="opacity:0;font-size:0;"></p>
+                    <p id="idnhom" style="opacity:0;font-size:0;">@tuple.Item3</p>
+                    <p id="idcd" style="opacity:0;font-size:0;"></p>
+                    <input type="text" id="idtv1" name="idtv1" value="" style="height:0px;margin-top:-20px;opacity:0;" />
+                    <input type="text" id="idnhom1" name="idnhom1" value="@tuple.Item3" style="height:0px;margin-top:-20px;opacity:0;" />
+
+                    <h1 style="font-family: 'Courgette', cursive;text-transform:uppercase; font-size:3.5rem; margin-top:140px;"></h1>
+                    <h2 style="font-family: 'Courgette', cursive;text-transform:capitalize; font-size:2rem; margin-top:5px;"></h2>
+
+
+                </div>
+            }
+        </div>
+
+        <div class="card-info back-info" style=" border:1px solid gray;  margin: 20px 20px 0 20px; height:480px;background-color:white;width:375px;
+    display: flex;display:flex;flex-direction:column;
+        flex-direction:column;align-items:center;border-radius:2rem;transform:rotateY(-180deg)">
+            <h1 style="font-family: 'Courgette', cursive;margin-top:20px;font-size:2rem;">Danh sách thành viên</h1>
+            <p id="checkTK" style="opacity:0;font-size:0.1px;">@ViewBag.Message</p>
+            <div class="container" style="margin:20px 0 0 0;overflow:auto;height:300px;padding:10px 0;font-size:1.25rem;">
+                <ul class="name-container">
+                    @foreach (var item in tuple.Item2)
+                    {
+                        <li class="name-item" id="@item.IDTK">@item.TEN</li>
+                    }
+                </ul>
+            </div>
+            <button style="background-color:aquamarine; width:90%; margin:20px 0;border-radius:2rem;height:50px;font-weight:600; border:none;" data-toggle="modal" data-target="#myModal">Thêm thành viên</button>
+        </div>
+    </div>
+    <div id="select-btn" style="display:flex;flex-direction:row;width:90%;height:50px;margin-top:550px;margin-left:20px;justify-content:space-around;">
+        <select style="height: 50px;width:30%;border-radius:.5rem;" id="chude">
+            <option value="" disabled selected>Chủ đề</option>
+            @foreach (var item in listcd)
+            {
+                <option value="@item.IDCD">@item.TENCD</option>
+            }
+        </select>
+        @{
+            var idnhom = tuple.Item3;
+        }
+        <input type="button" id="tttv" value="Thu thập từ vựng" style="background-color:#6666ff; width:30%;border-radius:2rem;height:50px;font-weight:600; border:none;font-size:.75rem;">
+        <input type="submit" id="xtv" value="Xóa từ vựng" style="background-color:#b30000; width:30%;border-radius:2rem;height:50px;font-weight:600; border:none;font-size:.75rem;">
+    </div>
+    <div class="edit-delete" style="display:flex;flex-direction:row;justify-content:space-between ;margin:20px 0 0 35px;height:55px;position:absolute;bottom:30px;">
+
+        <Button class="btn-edit">Thành viên</Button>
+        @Html.ActionLink("Rời nhóm", "OutGroup", new { idnhom = tuple.Item3 }, new { @style = "background-color:rgb(204, 0, 0);margin-left:30px; text-decoration:none;" })
+    </div>
+
+
+
+</div>
+</div>
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Tên thành viên</h4>
+            </div>
+
+            @using (Html.BeginForm("AddAccountToGroup", "Account"))
+            {
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input type="text" name="idTK" id="idTK" class="w-100" placeholder="ID của tài khoản ..." required><br>
+                    <input type="submit" value="Thêm" class=" mt-3 btn btn-primary w-100">
+                    <input type="text" name="idNhom" id="idNhom" class="w-100" style="opacity:0;height:1px;" value="@tuple.Item3" />
+
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(`input`).attr("autocomplete", "off");
+        
+        var text = $(`.container1`).children().children().children().children("h1").text();
+
+        $(`.container1`).children().children().children().children("#searchword-btn").click(function () {
+            console.log($(`.container1`).children().children().children().children("#searchword").val());
+            console.log($(`.container1`).children().children("#idcd").val());
+        });
+
+        $(`.card-container`).children().children().children(".flashcard-item").children("#select-btn").hide()
+        $(`.flashcard-item1`).click(function () {
+            $(`.card-container`).children().children().children(".flashcard-item").css("background-image", $(this).children("#front").css("background-image"));
+            $(`.card-container`).children().children().children().children("h1").text($(this).children().children("#tentv").text());
+            $(`.card-container`).children().children().children().children("h2").text($(this).children().children("#nghiatv").text());
+            $(`.card-container`).children().children().children().children("#idtv").text($(this).attr("id"));
+            $(`.card-container`).children().children().children().children("#idtv1").val($(this).attr("id"))
+            $(`.card-container`).children().children().children(".flashcard-item").children("#select-btn").show();
+        });
+
+        $("select#chude").change(function () {
+            var selectedchude = $(this).children("option:selected").val();
+            $(`.card-container`).children().children().children().children("#idcd").text(selectedchude);
+        });
+
+        $(`.card-container`).children().children().children(".flashcard-item").children().children("#tttv").click(function () {
+            var idtv = $(`.card-container`).children().children().children().children("#idtv").text();
+            var idnhom = $(`.card-container`).children().children().children().children("#idnhom").text();
+            var idchude = $(`.card-container`).children().children().children().children("#idcd").text();
+            console.log(idtv, idnhom, idchude);
+            if (idchude != "") {
+                alert("Nhận thành công");
+                $.get(`@Url.Action("GetTV", "Account")`, { idtv1: idtv, idnhom1: idnhom, idchude1: idchude });
+                location.reload()
+            }
+
+        });
+        $(`.card-container`).children().children(".flashcard-item").children().children("#xtv").click(function () {
+
+            var idtv = $(`.card-container`).children().children().children("#idtv").text();
+            var idnhom = $(`.card-container`).children().children().children("#idnhom").text();
+            var idchude = $(`.card-container`).children().children().children("#idcd").text();
+            @*if (idchude == "") {
+                $.get(`@Url.Action("DeleteTV","Account")`, { idtv1: idtv, idnhom1: idnhom});
+            }*@
+
+
+        });
+
+        $(`#add-TV`).click(function () {
+            $.ajax({
+                method: "GET",
+                url: '/Vocabulary/FlashcardCreate',
+                data: { data1: $(`#idcd`).attr("value") },
+                success: function (kq) {
+                    $(`#card-container`).html(kq);
+                }
+
+            })
+        })
+
+        $(`input`).attr("autocomplete", "off");
+        var i = 0
+        $(`.btn-edit`).click(function () {
+            i = i + 1;
+            if (i % 2 != 0) {
+                $(`.front-info`).css("transform", "rotateY(180deg)");
+                $(`.back-info`).css("transform", "rotateY(0)");
+            }
+            else {
+                $(`.front-info`).css("transform", "rotateY(0)");
+                $(`.back-info`).css("transform", "rotateY(-180deg)");
+            }
+        });
+        //if (document.getElementById("#checkTK").textContent != "") {
+        //    alert(document.getElementById("#checkTK").textContent);
+        //}
+
+
+    });
+</script>
+
+

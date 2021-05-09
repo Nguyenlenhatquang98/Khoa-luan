@@ -1,0 +1,222 @@
+﻿@model KhoaLuanTotNghiep.Models.THONGTINTAIKHOAN
+@using KhoaLuanTotNghiep.Models;
+
+@{
+    ViewBag.Title = "wordCorrect";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Model1 model = new Model1();
+    var tuple = ViewData["tuple"] as Tuple<List<TUVUNGONTAP>, int>;
+    var listTV = tuple.Item1;
+}
+
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=G9wc7rFf"></script>
+<style>
+    .vocabulary a {
+        background-color: rgb(230, 230, 230);
+    }
+
+    body {
+        background-image: url(https://kidsgoflash.com/wp-content/uploads/2017/02/kidsgoflash_sky_birds2.jpg);
+        background-color: rgba(255,255,255,0.7);
+        background-blend-mode: screen;
+        background-position: center top;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .word-char:not(:first-child) {
+        margin-left: 10px;
+    }
+
+    .word-choose:not(:first-child) {
+        margin-left: 10px;
+    }
+</style>
+<div class="container-all" style="height:670px;padding:10px; display:flex;flex-direction:row;position:absolute;width:83%;top:60px;">
+
+    <div class="match-container" style="padding: 20px; border-radius: .5rem; background-color: rgba(251, 248, 226,0.7); width: 65%; height: 100%; display: flex; flex-direction: row; justify-content: space-between;">
+        <section style="width:100%;height:100%;background-image:url(/Img/greenboard.png);background-size:100% 100%;border-radius:2rem;padding:48px 45px;">
+            <div class="word-container" id="word-container" style="overflow:hidden;height:100%;">
+                @for (var i = 0; i < listTV.Count(); i++)
+                {
+                    <div id="@i-word" class="word-section" style="width:100%;height:100%;display:flex;align-items:center;flex-direction:column;">
+                        <h1 style="font-size:4rem;text-align:center;margin-top:30px;color:white;text-transform:capitalize;">@listTV[i].NGHIATV</h1>
+                        <div class="word cont" id="@listTV[i].TENTV" style=" display: flex; flex-direction: row;justify-content:center;height:50px;margin-top:30px;width:100%;">
+                            @{
+                                var tentv = listTV[i].TENTV;
+                                for (int i1 = 0; i1 < tentv.Length; i1++)
+                                {
+                                    <div id="@i1" class="word-char" style="height:100%;width:8%;display:flex;justify-content:center;align-items:center;font-weight:600;background-color:rgba(255, 255, 255,0.4);border-radius:.5rem;text-transform:uppercase;"></div>
+                                }
+                            }
+                        </div>
+                        <div class="word-choose-parent" id="@listTV[i].TENTV" style="border:5px solid rgba(255,255,255,0.5);margin-top:130px;width:50%;height:100px;display:flex;flex-direction:row;justify-content:center;align-items:center;padding:10px;flex-wrap:wrap;">
+                            @{
+                                Random randn = new Random();
+                                List<char> chartv = new List<char>();
+                                var tvxao = listTV[i].TENTV;
+                                for (int i2 = 0; i2 < tvxao.Length; i2++)
+                                {
+                                    chartv.Add(tvxao[i2]);
+                                }
+                                var chartvxao = chartv.OrderBy(t => randn.Next()).ToList();
+                                for (int i3 = 0; i3 < chartvxao.Count(); i3++)
+                                {
+                                    <div id="@i3" class="word-choose" style="height:45%;width:12.5%;display:flex;justify-content:center;align-items:center;font-weight:600;background-color:rgba(255, 255, 255,0.4);border-radius:.5rem;text-transform:uppercase;">@chartvxao[i3]</div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </section>
+    </div>
+    <div class="match-result" style="border-radius: .5rem; background-color: rgba(251, 248, 226,0.7); width: 38%; margin-left: 15px;">
+        <div class="card-container" style="height:100%;">
+            <div class="card-info front-info" style="height:100%;width:100%;">
+                <div class="flashcard-item" style="border:1px solid gray; margin: 20px 20px 0 20px; height:480px;display:flex;flex-direction:column;
+        flex-direction:column;align-items:center;justify-content:flex-start;border-radius:2rem;background-color:rgba(255,255,255,0.7);">
+                    <h1 style="text-transform:uppercase; font-size:2rem;margin-top:100px;">Kết quả luyện tập</h1>
+                    <h3 id="tld" style="text-transform:uppercase; font-size:1.25rem;margin-top:25px;color:green;">Số câu trả lời đúng là : 0 </h3>
+                    <h3 id="tls" style="text-transform:uppercase; font-size:1.25rem;margin-top:10px;color:red;">Số câu trả lời sai là : 0</h3>
+
+                </div>
+
+
+            </div>
+            <div class="card-info back-info" style=" border:1px solid gray;  margin: 20px 20px 0 20px; height:480px;background-color:whitesmoke;width:91%;
+    display: flex;display:flex;flex-direction:column;
+        flex-direction:column;align-items:flex-start;border-radius:2rem;transform:rotateY(-180deg); padding:30px 30px;">
+                <h2 style="font-size:1.5rem;">Các từ không chính xác :</h2>
+                <ul id="wrong-contain">
+                </ul>
+                <h2 style="font-size:1.5rem;">Các từ chính xác :</h2>
+                <ul id="right-contain">
+                </ul>
+            </div>
+            <div class="edit-delete1" style="padding:5px 20px;position:absolute;bottom:-10px;height:125px;left:0;width:100%;margin:15px 0 ;">
+                <div style="display:flex;flex-direction:row;justify-content:space-between; width:100%; height:45%; ">
+                    <Button class="btn-edit" style="width:100%; height:100%;border-radius:2rem;border:1px solid grey;background-color:rgba(255,255,255,0.5);">CHI TIẾT</Button>
+                    <a style="width:100%;" href="/Vocabulary/wordCorrect?id=@tuple.Item2"><Button class="btn-edit" style="border: 1px solid grey; width: 100%; height: 100%; border-radius: 2rem;background-color:rgba(255,255,255,0.5); ">LUYỆN TẬP LẠI</Button></a>
+                </div>
+                <div style="width:100%; height:45%;margin-top:10px;">
+                    <a href="/Vocabulary/practice?id=@tuple.Item2"><Button class="btn-edit" style="width:100%; height:100%;border-radius:2rem;border: 1px solid grey;background-color:rgba(255,255,255,0.5);">KẾT THÚC</Button></a>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script>
+
+
+    $(document).ready(function () {
+        var i = 0;
+        var bd = 0;
+        var check = 0;
+        var nextpage = 1;
+        var idtv = [];
+        var dem = 0;
+        $(`.word-choose`).click(function () {
+            var sl = $(this).parent().attr("id").length;
+            responsiveVoice.speak($(this).text(), "UK English Female", { volume:1, rate: 0.75 });
+            idtv.push($(this).attr("id"));
+            $(`#` + $(this).parent().attr("id")).children(`#` + bd).text($(this).text());
+            $(this).hide();
+            bd++;
+            console.log(idtv);
+
+            if (bd == sl) {
+                var wordcorrect = $(this).parent().attr("id");
+                for (var i = 0; i < wordcorrect.length; i++) {
+                    if ($(`#` + check + "-word").children(`.word`).children(`#` + i).text()[0].toLowerCase() != wordcorrect[i].toLowerCase()) {
+                        console.log($(`#` + check + "-word").children(`.word`).children(`#` + i).text()[0].toLowerCase());
+                        setTimeout(function () {
+                           responsiveVoice.speak("Incorrect", "UK English Female", { volume: 1, rate: 0.75 });
+                        }, 1000);
+                        console.log(wordcorrect[i]);
+                        console.log("false");
+                        dem = 0;
+                        break;
+                    }
+                    else {
+                        dem++;
+
+                    }
+
+                }
+                if (dem == wordcorrect.length) {
+                    var chuyen = false;
+                    console.log("true");
+                    idtv = [];
+                    setTimeout(function () {
+                       responsiveVoice.speak("Correct", "UK English Female", { volume: 1, rate: 0.75 });
+                    }, 1000);
+                    setTimeout(function () {
+                        responsiveVoice.speak(wordcorrect, "UK English Female", { volume: 1, rate: 0.75 });
+                        
+                    }, 2000);
+                    setTimeout(function () {
+                        document.getElementById(nextpage + "-word").scrollIntoView();
+                        nextpage++;
+                        check++;
+                        bd = 0;
+                        console.log(dem);
+                        dem = 0;
+                        console.log(check);
+                    },3000);
+                    
+                }
+
+
+            }
+        });
+        $(`.word-char`).click(function () {
+            if ($(this).attr("id") < idtv.length) {
+                bd--;
+
+                for (var i = Number($(this).attr("id")); i < idtv.length - 1; i++) {
+                    var tren = i + 1;
+                    if ($(`#` + check + "-word").children(`.word`).children("#" + tren).text() != "") {
+                        $(`#` + check + "-word").children(`.word`).children("#" + i).text($(`#` + check + "-word").children(`.word`).children("#" + tren).text()[0])[0];
+                    }
+                    else {
+                        $(`#` + check + "-word").children(`.word`).children("#" + i).text("");
+                    }
+                }
+
+                var cuoicung = idtv.length - 1;
+                $(`#` + check + "-word").children(`.word`).children("#" + cuoicung).text("");
+                var tv = idtv.splice($(this).attr("id"), 1);
+                console.log(idtv);
+
+                if (bd >= 0) {
+                    console.log($(this).text());
+                    $(`.word-choose-parent`).children(`#` + tv).show();
+                }
+
+            }
+        });
+
+
+
+
+        $(`.btn-edit`).click(function () {
+
+            i = i + 1;
+            if (i % 2 != 0) {
+                $(`.front-info`).css("transform", "rotateY(180deg)");
+                $(`.back-info`).css("transform", "rotateY(0)");
+            }
+            else {
+                $(`.front-info`).css("transform", "rotateY(0)");
+                $(`.back-info`).css("transform", "rotateY(-180deg)");
+            }
+        });
+    });
+</script>
+
+

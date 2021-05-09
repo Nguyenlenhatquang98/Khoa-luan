@@ -1,0 +1,113 @@
+﻿@model KhoaLuanTotNghiep.Models.THONGTINTAIKHOAN
+@using KhoaLuanTotNghiep.Models;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body{
+        z-index:-4;
+    }
+    .bodyLayout {
+        background-image: url(https://kidsgoflash.com/wp-content/uploads/2017/02/kidsgoflash_sky_birds2.jpg);
+        background-color: rgba(255,255,255,0.7);
+        background-blend-mode: screen;
+        background-position: center top;
+        background-size: cover;
+        background-repeat: no-repeat;
+        z-index:-3;
+    }
+
+    .navtv {
+        position: relative;
+    }
+
+        .navtv::after {
+            position: absolute;
+            content: '';
+            right: -80px;
+            left: -100px;
+            top: -40px;
+            bottom: -40px;
+            background-color: lightgreen;
+            z-index: -1;
+            clip-path: ellipse(74% 96% at 35% 6%);
+        }
+
+    .Exam a{
+        background-color: rgb(230, 230, 230);
+    }
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+
+@using (Html.BeginForm("searchGroup", "Account"))
+{
+    <div style=" display:flex; flex-direction:row; flex-wrap:wrap; margin-top:10px;overflow:auto;justify-content:flex-start;">
+        @{
+            Tuple<List<PHONGLUYENTAP>, List<TAIKHOANPHONGLUYENTAP>> tuple = ViewData["Tuple"] as Tuple<List<PHONGLUYENTAP>, List<TAIKHOANPHONGLUYENTAP>>;
+        }
+
+        <div class="container-fluid navtv" style="height:40px;display:flex;align-items:center;justify-content:flex-end;position:fixed;right:0;top:70px;">
+            <h2 style="margin-right:980px;">Các bài luyện tập</h2>
+            <input type="text" name="searchGroup1" placeholder="Tên nhóm ..." style="position: absolute;right:130px; border-radius: 2rem; padding-left: 20px; outline: none; width: 22%; height: 100%; border: none; background-color: rgb(234, 234, 225);" />
+            <input type="submit" value="Search" style="position:absolute;right:130px;height:100%;border-radius:2rem;width:5%;display:flex;align-items:center;justify-content:center; background-color:rgb(30, 47, 47); color:white;" />
+
+        </div>
+
+        <div style="width:100%;display:flex;flex-direction:row; flex-wrap:wrap; margin-top:130px; height:580px;overflow:auto;">
+            @if (tuple.Item1.Count > 0)
+            {
+                foreach (var std in tuple.Item1)
+                {
+
+                    <div class="flashcard-item" style="border:1px solid gray; width:27%; height:260px;margin-left:30px; margin-bottom:30px;margin-right:30px;border-radius:2rem;padding:20px;position:relative;border:none;background:linear-gradient(to right,rgb(242, 242, 242),white);box-shadow:0 0 10px  gray;margin-top:10px;">
+                        <div class="ct1" style="overflow:hidden;width:324px;height:256px;">
+                            <h4 id="h1" style=" color:grey;margin-top:10px; transition:all 1s;width:100000px; margin-left:5px;" value="@std.TENPHONG">@std.TENPHONG.ToUpper()</h4>
+                            <label style="margin-left:10px;margin-top:15px;">Số người tham gia luyện tập : @tuple.Item2.Where(t => t.IDPLT == std.IDPLT).ToList().Count()</label>
+                            <label style="margin-left:10px;">Số lượng từ vựng : @std.SOCAUHOI</label><br />
+                            <label style="margin-left:10px;">Thời gian : @std.THOIGIAN Phút</label>
+                            <div style="width:100%;display:flex;flex-direction:row;height:50px;position:relative;margin-top:10px;">
+                                @Html.ActionLink("Tham gia", "ExamRoom", "Exam", new { id = std.IDPLT }, new { @style = "border:2px solid gray; border-radius:2rem;width:90%;height:100%;position:absolute;display:flex;justify-content:center;align-items:center;background-color:rgb(230, 255, 255);" })
+
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            }
+
+           
+        </div>
+
+
+    </div>
+
+            }
+
+
+
+<script>
+    $(document).ready(function () {
+        $(`input`).attr("autocomplete", "off");
+
+
+        $(`.editTopic`).click(function () {
+            var idcd = $(this).attr("id").toString();
+            var tencd = document.getElementsByClassName(idcd)[0].textContent;
+            $(`#topic`).attr("value", tencd);
+            $(`#topicId`).attr("value", idcd);
+        })
+    });
+</script>
+
+
+
+
+
+

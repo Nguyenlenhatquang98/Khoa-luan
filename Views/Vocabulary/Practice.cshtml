@@ -1,0 +1,65 @@
+﻿@model KhoaLuanTotNghiep.Models.THONGTINTAIKHOAN
+@using KhoaLuanTotNghiep.Models;
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+<style>
+    .vocabulary a{
+        background-color: rgb(230, 230, 230);
+    }
+    body {
+        background-image: url(https://kidsgoflash.com/wp-content/uploads/2017/02/kidsgoflash_sky_birds2.jpg);
+        background-color: rgba(255,255,255,0.7);
+        background-blend-mode: screen;
+        background-position: center top;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+ 
+</style>
+@{
+    ViewBag.Title = "Practice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="margin-top:40px;margin-left:65px;position:absolute;">Các hình thức luyện tập :</h2>
+@{
+    Model1 model = new Model1();
+    int id = Convert.ToInt32(ViewData["id"]);
+    int listTVCount = model.TUVUNGONTAPs.Where(t => t.IDCD == id).ToList().Count;
+} 
+<p id="checkTVCount" style="opacity:0;font-size:.1px;">@listTVCount</p>
+<div class="Practises-container" style="margin:40px 20px 0 15px;height:550px;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-between;overflow:auto;position:absolute;width:75%;left:300px;top:130px;padding:10px;">
+    <div class="Practices-item" style="box-shadow:0 0 5px grey;" >
+        <h2>Nối ô chữ</h2>
+        <p>Nối chính xác các từ giữa 2 cột</p>
+        @Html.ActionLink("Luyện tập", "match", new { id = id},new { id="match"})
+    </div>
+    <div class="Practices-item" style="box-shadow:0 0 5px grey;">
+        <h2>Sắp xếp chữ cái</h2>
+        <p>Sắp xếp chữ cái sao cho có nghĩa </p>
+        @Html.ActionLink("Luyện tập", "wordCorrect", new { id = id })
+    </div>
+    <div class="Practices-item" style="box-shadow:0 0 5px grey;">
+        <h2>Chọn từ tương ứng</h2>
+        <p>Chọn từ có nghĩa phù hợp nhất với hình ảnh</p>
+        @Html.ActionLink("Luyện tập", "pictureMeaning", new { id = id })
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(`#match`).click(function () {
+            if (document.getElementById("checkTVCount").textContent == "0") {
+                alert("You need more than 1 word to practice");
+                return false;
+            }
+        });
+    });
+</script>
+
+

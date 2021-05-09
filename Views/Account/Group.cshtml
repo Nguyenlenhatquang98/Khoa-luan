@@ -1,0 +1,135 @@
+﻿@model KhoaLuanTotNghiep.Models.THONGTINTAIKHOAN
+@using KhoaLuanTotNghiep.Models;
+@{
+    ViewBag.Title = "Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+<style>
+    .Group a{
+        background-color: rgb(230, 230, 230);
+    }
+
+
+</style>
+@using (Html.BeginForm("searchGroup", "Account"))
+{
+<div style=" display:flex; flex-direction:row; flex-wrap:wrap; margin-top:10px;overflow:auto;justify-content:flex-start;">
+    @{
+        Tuple<List<NHOM>, List<NHOMTAIKHOAN>, List<TUVUNGNHOM>> tuple = ViewData["tuple"] as Tuple<List<NHOM>, List<NHOMTAIKHOAN>,List<TUVUNGNHOM>>;
+
+    }
+   
+        <div class="container-fluid" style="height:40px;display:flex;align-items:center;justify-content:flex-end;position:fixed;right:60px;top:70px;">
+            <h2 style="margin-right:600px;">Danh sách nhóm</h2>
+            <input type="text" name="searchGroup1" placeholder="Tên nhóm ..." style="border-radius:2rem; padding-left:20px;outline:none;width:22%;height:100%;border:none;background-color:rgb(234, 234, 225);" />
+            <input type="submit" value="Search" style="position:absolute;right:15px;height:100%;border-radius:2rem;width:5%;display:flex;align-items:center;justify-content:center; background-color:rgb(30, 47, 47); color:white;" />
+
+        </div>
+
+        <div style="width:100%;display:flex;flex-direction:row; flex-wrap:wrap; margin-top:100px; height:580px;overflow:auto;">
+            @if (tuple.Item1.Count > 0)
+            {
+                foreach (var std in tuple.Item1)
+                {
+
+                    <div class="flashcard-item" style="border:1px solid gray; width:19%; height:260px;margin-left:30px; margin-bottom:30px;margin-top:10px;margin-right:30px;border-radius:2rem;padding:20px;position:relative;border:none;background:linear-gradient(to right,rgb(242, 242, 242),white);box-shadow:0 0 10px  gray;">
+                        <div class="ct1" style="overflow:hidden;width:206px;height:250px;">
+                            <h2 id="h1" style="color:grey;margin-top:20px; transition:all 1s;width:100000px; margin-left:5px;" value="@std.TENNHOM.ToUpper()">@std.TENNHOM.ToUpper()</h2>
+                            <label style="margin-left:10px;">Thành viên trong nhóm : @tuple.Item2.Where(t => t.IDN == std.IDN).ToList().Count() </label>
+                            <label style="margin-left:10px;">Số từ trong nhóm : @tuple.Item3.Where(t => t.IDN == std.IDN).ToList().Count() </label>
+                            <div style="width:95%;display:flex;flex-direction:row;height:50px;position:relative;margin-top:20px;">
+                                @Html.ActionLink("Tham gia", "GroupDetails", "Account", new { id = std.IDN }, new { @style = "margin-top:10px;border:2px solid gray; border-radius:2rem;width:100%;height:100%;position:absolute;display:flex;justify-content:center;align-items:center;" })
+
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="flashcard-item" style="width:19%; height:260px; margin-bottom:30px;margin-left:30px;text-align:center;border-radius:2rem;margin-top:10px; background-color:rgb(247, 247, 247); display:flex; justify-content:center;align-items:center;">
+                <div style="background:gray; width:100px;height:100px;clip-path: circle(50% at 50% 50%);display:flex; justify-content:center;align-items:center;" id="add-Chude" data-toggle="modal" data-target="#myModal">
+                    <div style="background-color: black; width: 50px; height: 50px;clip-path: polygon(35% 0%,65% 0%,65% 35%,100% 35%,100% 60%,65% 60%,65% 100%,35% 100%,35% 60%,0% 60%,0% 35%,35% 35%); ">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</div>
+
+            }
+<div class="modal" id="myModalEdit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Tên nhóm</h4>
+            </div>
+
+            @using (Html.BeginForm("TopicEdit", "Vocabulary"))
+            {
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input type="text" name="topic" id="topic" class="w-100" placeholder="Topic ..." required><br>
+                    <input type="submit" value="Save" class=" mt-3 btn btn-primary w-100">
+                    <input type="text" name="topicID" id="topicId" class="w-100" style="opacity:0;height:1px;" />
+
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Tên nhóm</h4>
+            </div>
+
+            @using (Html.BeginForm("CreateGroup", "Account"))
+            {
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input type="text" name="group" class="w-100" placeholder="Tên nhóm ..." required><br>
+                    <input type="submit" value="Thêm" class=" mt-3 btn btn-primary w-100">
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(`input`).attr("autocomplete", "off");
+
+   
+        $(`.editTopic`).click(function () {
+            var idcd = $(this).attr("id").toString();
+            var tencd = document.getElementsByClassName(idcd)[0].textContent;
+            $(`#topic`).attr("value", tencd);
+            $(`#topicId`).attr("value", idcd);
+        })
+    });
+</script>
+
+
+
+
+

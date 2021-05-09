@@ -1,0 +1,36 @@
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" media="screen" />
+@using KhoaLuanTotNghiep.Models;
+@{ 
+    Model1 model = new Model1();
+    ADMIN admin = model.ADMINs.Where(t => t.USING == true).SingleOrDefault();
+}
+<style>
+    .navbar2 {
+        z-index: 1;
+    }
+</style>
+<div class="navbar2" style="width:15%;background-color:white;border:none;box-shadow:0 0 7px gray;position:fixed;top:42px;">
+    <div class="account">
+        @Html.ActionLink("Tài khoản", "AdminInfo", "Home",new { id = admin.IDTK} ,new { @class = "btn ", @style = "border:none;color:rgb(115, 115, 115);font-weight:600;margin-top: 10px;border-radius:0;border:1px solid rgb(230, 230, 230);" })
+    </div>
+    <div class="vocabulary">
+        @Html.ActionLink("Quản lý từ vựng", "TopicAdmin", "Home", new { @class = "btn ", @style = "border:none;color:rgb(115, 115, 115);font-weight:600;margin-top: 10px;border-radius:0;border:1px solid rgb(230, 230, 230);" })
+    </div>
+    <div class="listAccount" style="display:flex;flex-direction:row;">
+
+        @Html.ActionLink("Quản lý tài khoản", "Admin", "Home",new { @class = "btn ", @style = "border:none;color:rgb(115, 115, 115);font-weight:600;margin-top: 10px;border-radius:0;border:1px solid rgb(230, 230, 230);" })
+    </div>
+
+
+
+    <div class="practice">
+        @Html.ActionLink("Quản lý luyện tập", "Practice", "Home", new { @class = "btn ", @style = "border:none;color:rgb(115, 115, 115);font-weight:600;margin-top: 10px;border-radius:0;border:1px solid rgb(230, 230, 230);" })
+    </div>
+
+
+
+</div>

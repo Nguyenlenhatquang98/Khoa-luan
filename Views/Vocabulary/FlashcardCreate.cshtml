@@ -1,0 +1,36 @@
+﻿@model KhoaLuanTotNghiep.Models.CHUDE
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+<div class="card-container">
+    @using (Html.BeginForm("CreateTV", "Vocabulary", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="card-info " style=" border:1px solid gray;  margin: 20px 20px 0 20px; height:480px;background-color:white;
+    display: flex;display:flex;flex-direction:column;
+        flex-direction:column;align-items:center;border-radius:2rem;">
+            <h1 style="font-family: 'Courgette', cursive;margin-top:20px;">Thông tin của thẻ</h1>
+            <input name="idCD" style="margin-top:-30px;opacity:0;" value="@Model.IDCD" />
+            <div class="container" style="margin-top:50px;">
+                <label for="name">Tên :</label>
+                <input type="text" name="name" style="border-radius:1rem;width:70%;margin-left:10px;padding-left:10px;" />
+            </div>
+            <div class="container" style="margin-top:20px;">
+                <label for="meaning">Nghĩa :</label>
+                <input type="text" name="meaning" style="border-radius:1rem;width:70%;margin-left:10px;padding-left:10px;" />
+            </div>
+          
+            <div class="container" style="margin-top:20px;margin-left:25px;">
+                <input type="file" name="file" />
+            </div>
+            <input type="submit" value="Tạo" class="btn btn-default save" style="background-color:green; width:90%; margin-top:40px;border-radius:2rem;height:50px;font-weight:600" />
+        </div>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $(`input`).attr("autocomplete", "off");
+    });
+</script>

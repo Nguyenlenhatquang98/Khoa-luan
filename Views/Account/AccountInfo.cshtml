@@ -1,0 +1,188 @@
+﻿@model KhoaLuanTotNghiep.Models.THONGTINTAIKHOAN
+
+@{
+    ViewBag.Title = "AccountInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=G9wc7rFf"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" media="screen" />
+<style>
+    .account a {
+        background-color: rgb(230, 230, 230);
+    }
+    body {
+        background-image: url(https://kidsgoflash.com/wp-content/uploads/2017/02/kidsgoflash_sky_birds2.jpg);
+        background-color: rgba(255,255,255,0.7);
+        background-blend-mode: screen;
+        background-position: center top;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    .form-group:not(:first-child){
+        margin-top:0px;
+    }
+</style>
+
+@using (Html.BeginForm("AddImage", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="container1" style="display:flex;flex-direction:row;margin-top:20px;margin-left:20px;padding:20px;height:700px;">
+        <div class="form-horizontal" style="width:70%;background-color:rgba(222, 236, 237,0.8);border-radius:2rem;margin-right:20px;padding:0 20px;">
+            <br />
+            <h2>Thông tin tài khoản</h2>
+            <hr />
+
+            <div class="form-group">
+                @Html.Label("Tên tài khoản", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" name="name" class="mt-2 w-100 mb-2" value="@Model.TEN" required>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Mật khẩu", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="password" name="password" class="mt-2 w-100 mb-2" value="@Model.TAIKHOAN.MATKHAU" required>
+                </div>
+            </div>
+
+            <div class="form-group" style="width:99%;">
+                @Html.Label("Ngày sinh", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="birthday" style="margin-left:15px;width: 81%;">
+                    @{
+                        var date = Model.NGAYSINH;
+                        int day = date.Value.Day;
+                        int month = date.Value.Month;
+                        int year = date.Value.Year;
+                    }
+                    <select name="day" id="day" required>
+                        <option value="0">Day</option>
+                        @for (int i = 1; i < 32; i++)
+                        {
+                            if (i == day)
+                            {
+                                <option value="@i" selected>@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                    <select name="month" id="month" required>
+                        <option value="0">Month</option>
+                        @for (int i = 1; i < 13; i++)
+                        {
+                            if (i == month)
+                            {
+                                <option value="@i" selected>@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                    <select name="year" id="year" required>
+                        <option value="0">Year</option>
+                        @for (int i = DateTime.Now.Year - 100; i < DateTime.Now.Year + 100; i++)
+                        {
+                            if (i == year)
+                            {
+                                <option value="@i" selected>@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style="width:100%;">
+                @Html.Label("Giới tính", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="Gender" style="width:33%;">
+                        @if (Model.GIOITINH == true)
+                        {
+                            <div class="male">
+                                <label for="male">Male</label>
+                                <input type="radio" id="male" name="gender" value="1" checked>
+                            </div>
+                            <div class="female">
+                                <label for="female">Female</label>
+                                <input type="radio" style="margin-left:20px;" id="female" name="gender" value="2">
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="male">
+                                <label for="male">Male</label>
+                                <input type="radio" id="male" name="gender" value="1">
+                            </div>
+                            <div class="female">
+                                <label for="female">Female</label>
+                                <input type="radio" id="female" name="gender" value="2" checked>
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="email">Email</label>
+                <div class="col-md-10">
+                    <input type="text" name="email" class="mt-2 w-100 mb-2" value="@Model.EMAIL">
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Địa chỉ", htmlAttributes: new { @class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    <input type="text" name="address" class="mt-2 w-100 mb-2" value="@Model.DIACHI">
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Số điện thoại", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" name="phone" class="mt-2 w-100 mb-2" value="@Model.SODT">
+                </div>
+            </div>
+            <input type="text" name="id" value="@Model.IDTTTK" style="opacity:0;" />
+            <div class="form-group" style="margin-top:-20px;">
+                <div class="col-md-offset-2 col-md-10" style="display:flex;flex-direction:row;justify-content:space-around;margin-left:75px;">
+                    <input type="submit" value="Lưu" class="btn btn-default save" style="border:none;background-color:aquamarine;font-weight:600;" />
+                    @Html.ActionLink("Quay lại trang chủ", "Home", "Home", null, new { @class = "btn btn-default", @style = "border:none;background-color:rgb(194, 214, 214);font-weight:600;" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="avatar" style="background-color: rgba(222, 236, 237,0.8); border-radius: 2rem; margin-top: 0px; height: 500px; width: 350px; padding: 20px; ">
+            <div class="img-contain" style="border:1px solid grey;border-radius:2rem;; height:85%;">
+                @if (Model.ANHACC != null)
+                {
+                    <img src="@Url.Content(Model.ANHACC)" alt="Alternate Text" style="width:100%; height:100%; border-radius:2rem;" />
+                }
+                else
+                {
+                    <img src="@Model.ANHACC" alt="Alternate Text" style="width:100%; height:100%" />
+                }
+            </div>
+            <input type="file" name="file" style="margin-top:30px" />
+        </div>
+
+    </div>
+}
+
+
+
