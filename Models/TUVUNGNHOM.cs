@@ -28,6 +28,7 @@ namespace KhoaLuanTotNghiep.Models
         public int? IDN { get; set; }
 
         public virtual NHOM NHOM { get; set; }
+
         public TUVUNGNHOM(string tENTV, string nGHIATV, string vDTV, string aNHTUVUNG, int? iDN)
         {
             TENTV = tENTV;

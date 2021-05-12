@@ -6,6 +6,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     Model1 model = new Model1();
     var tuple = ViewData["tuple"] as Tuple<List<TUVUNGONTAP>, int>;
+    var account = model.TAIKHOANs.Where(t => t.USING == true).SingleOrDefault();
+    var chudeyeuthich = model.CHUDEs.Where(t => t.IDTK1 == account.IDTK).SingleOrDefault();
     var listtv = tuple.Item1;
 }
 <head>
@@ -62,7 +64,7 @@
                                 <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z" />
                                 <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z" />
                             </svg>
-                            @if (model.TUVUNGONTAPs.Where(t => t.IDCD == 2).Where(t => t.TENTV.ToLower().Equals(item.TENTV)).ToList().Count() == 0)
+                            @if (model.TUVUNGONTAPs.Where(t => t.IDCD == chudeyeuthich.IDCD).Where(t => t.TENTV.ToLower().Equals(item.TENTV)).ToList().Count() == 0)
                             {
                                 <svg class="star" style="width:10%;height:10%;margin-left:60%;margin-top:2%;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
                                     <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />

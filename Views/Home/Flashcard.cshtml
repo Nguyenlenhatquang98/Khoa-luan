@@ -1,0 +1,96 @@
+﻿@model KhoaLuanTotNghiep.Models.TUVUNGONTAP
+@using KhoaLuanTotNghiep.Models;
+@{ 
+    Model1 model = new Model1();
+ 
+}
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+<p id="idCD" style="opacity:0;font-size:0px;margin-top:-20px;">@Model.IDCD</p>
+<p id="idTV" style="opacity:0;font-size:0px;">@Model.IDTV</p>
+<div class="card-container" >
+    <div class="card-info front-info">
+        <div class="flashcard-item" style="border:1px solid gray; margin: 5px 20px 0 20px;width:89%; height:520px;background-image:url('@Model.ANHTUVUNG');display:flex;flex-direction:column;
+        flex-direction:column;align-items:center;border-radius:2rem;background-size:100% 100%">
+            <p id="idn" style="opacity:0;font-size:0;"></p>
+
+            
+        </div>
+    </div>
+    @using (Html.BeginForm("EditVocab", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    { 
+<div class="card-info back-info" style=" border:1px solid gray; margin: 5px 20px 0 20px;width:89%; height:520px;background-color:white;
+    display: flex;display:flex;flex-direction:column;
+        flex-direction:column;align-items:center;border-radius:2rem;transform:rotateY(-180deg);">
+    <h1 style="margin-top:20px;">Thông tin của thẻ</h1>
+    <input name="id" style="opacity:0" value="@Model.IDTV" />
+    <input  name="idCD" style="margin-top:-30px;opacity:0;" value="@Model.IDCD" />
+    <div class="container" style="margin-top:50px;">
+        <label for="name">Tên :</label>
+        <input type="text" name="name" value="@Model.TENTV" style="border-radius:1rem;width:70%;margin-left:10px;padding-left:10px;" />
+    </div>
+    <div class="container" style="margin-top:20px;">
+        <label for="meaning">Nghĩa :</label>
+        <input type="text" name="meaning" value="@Model.NGHIATV" style="border-radius:1rem;width:70%;margin-left:10px;padding-left:10px;" />
+    </div>
+    
+    <div class="container" style="margin-top:20px;margin-left:-20px;">
+        <input type="file" name="file" />
+    </div>
+    <input type="submit" value="Lưu" class="btn btn-default save" style="background-color:aquamarine; width:90%; margin-top:60px;border-radius:2rem;height:50px;font-weight:600" />
+</div>  
+    }
+</div>
+@*<div id="select-btn" style="display:flex;flex-direction:row;width:90%;height:50px;margin-left:25px;margin-top:575px;justify-content:space-around;">
+    <select style="height: 50px;width:40%;border-radius:.5rem;" id="nhom">
+        <option value="" disabled selected>Nhóm</option>
+        @foreach (var item in listnhom)
+        {
+            <option value="@item.IDN">@item.TENNHOM</option>
+        }
+    </select>
+    <input type="button" value="Chia sẻ từ vựng" style="background-color:#6666ff; width:50%;border-radius:2rem;height:50px;font-weight:600; border:none;">
+</div>*@
+<div class="edit-delete" style="display:flex;flex-direction:row;justify-content:space-between ;margin:0 30px;height:55px;position:absolute;bottom:5px;right:0px;">
+    <Button class="btn-edit" >Sửa</Button>
+    @Html.ActionLink("Xóa", "DeleteTV", new { id = Model.IDTV, idCD = Model.IDCD}, new { @style = "width:180px;background-color:rgb(204, 0, 0);margin-left:21px; text-decoration:none;" })
+</div>
+<script>
+    $(document).ready(function () {
+        $(`input`).attr("autocomplete", "off");
+        var i = 0
+        $(`.btn-edit`).click(function () {
+            i = i + 1;
+            if (i % 2 != 0) {
+                $(`.front-info`).css("transform", "rotateY(180deg)");
+                $(`.back-info`).css("transform", "rotateY(0)");
+            }
+            else {
+                $(`.front-info`).css("transform", "rotateY(0)");
+                $(`.back-info`).css("transform", "rotateY(-180deg)");
+            }
+        });
+        @*$("select#nhom").change(function () {
+            var selectedchude = $(this).children("option:selected").val();
+            $(`.card-container`).children().children().children("#idn").text(selectedchude);
+        });
+
+        $(`.card-container`).children().children(".flashcard-item").children().children("input").click(function () {
+
+            var idn = $(`.card-container`).children().children().children("#idn").text();
+            var idcd = $("#idCD").text();
+            var idtv = $("#idTV").text();
+
+            if (idn != "") {
+                alert("chia sẽ thành công");
+                $.get(`@Url.Action("ShareTV","Vocabulary")`, { idnhom: idn, idchude: idcd, idtuvung: idtv });
+                location.reload();
+            }
+
+        });*@
+    });
+</script>

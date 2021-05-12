@@ -32,13 +32,19 @@ namespace KhoaLuanTotNghiep.Models
 
         public virtual CHUDE CHUDE { get; set; }
 
-
         public TUVUNGONTAP(string tENTV, string nGHIATV, string pHIENAM, string vDTV, string aNHTUVUNG, int? iDCD)
         {
             TENTV = tENTV;
             NGHIATV = nGHIATV;
             VDTV = vDTV;
             PHIENAM = pHIENAM;
+            ANHTUVUNG = aNHTUVUNG;
+            IDCD = iDCD;
+        }
+        public TUVUNGONTAP(string tENTV, string nGHIATV, string aNHTUVUNG, int? iDCD)
+        {
+            TENTV = tENTV;
+            NGHIATV = nGHIATV;
             ANHTUVUNG = aNHTUVUNG;
             IDCD = iDCD;
         }

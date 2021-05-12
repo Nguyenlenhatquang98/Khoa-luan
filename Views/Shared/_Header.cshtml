@@ -51,11 +51,24 @@
         }
         else
         {
-            <ul>
-
+    <ul>
+        @{
+            string[] tachten = null;
+            string ten = null;
+            if (Model.TEN.Length > 10)
+            {
+                tachten = Model.TEN.Split(' ');
+                ten = tachten[tachten.Length - 1];
+                <li>@Html.ActionLink(ten, "AccountInfo", "Account", new { id = Model.IDTK }, null)</li>
+            }
+            else
+            {
                 <li>@Html.ActionLink(Model.TEN, "AccountInfo", "Account", new { id = Model.IDTK }, null)</li>
-                <li>@Html.ActionLink("Đăng xuất", "Logout", "Home")</li>
-            </ul>
+            }
+        }
+
+        <li>@Html.ActionLink("Đăng xuất", "Logout", "Home")</li>
+    </ul>
         }
 
     </div>

@@ -46,7 +46,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
 
-@using (Html.BeginForm("searchGroup", "Account"))
+@using (Html.BeginForm("searchExam", "Exam"))
 {
     <div style=" display:flex; flex-direction:row; flex-wrap:wrap; margin-top:10px;overflow:auto;justify-content:flex-start;">
         @{
@@ -55,7 +55,7 @@
 
         <div class="container-fluid navtv" style="height:40px;display:flex;align-items:center;justify-content:flex-end;position:fixed;right:0;top:70px;">
             <h2 style="margin-right:980px;">Các bài luyện tập</h2>
-            <input type="text" name="searchGroup1" placeholder="Tên nhóm ..." style="position: absolute;right:130px; border-radius: 2rem; padding-left: 20px; outline: none; width: 22%; height: 100%; border: none; background-color: rgb(234, 234, 225);" />
+            <input type="text" name="searchExam" placeholder="Tên nhóm ..." style="position: absolute;right:130px; border-radius: 2rem; padding-left: 20px; outline: none; width: 22%; height: 100%; border: none; background-color: rgb(234, 234, 225);" />
             <input type="submit" value="Search" style="position:absolute;right:130px;height:100%;border-radius:2rem;width:5%;display:flex;align-items:center;justify-content:center; background-color:rgb(30, 47, 47); color:white;" />
 
         </div>

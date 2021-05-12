@@ -34,7 +34,5 @@ namespace KhoaLuanTotNghiep.Models
         public string ANHACC { get; set; }
 
         public virtual ADMIN ADMIN { get; set; }
-
-
     }
 }

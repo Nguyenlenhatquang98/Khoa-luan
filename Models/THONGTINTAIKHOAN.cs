@@ -34,6 +34,7 @@ namespace KhoaLuanTotNghiep.Models
         public string ANHACC { get; set; }
 
         public virtual TAIKHOAN TAIKHOAN { get; set; }
+
         public THONGTINTAIKHOAN()
         {
         }

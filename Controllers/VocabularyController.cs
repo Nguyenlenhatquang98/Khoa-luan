@@ -13,7 +13,6 @@ namespace KhoaLuanTotNghiep.Controllers
     {
         // GET: Vocabulary
         private Model1 model;
-        SpeechSynthesizer reader = new SpeechSynthesizer();
         public VocabularyController()
         {
             model = new Model1();
@@ -24,14 +23,29 @@ namespace KhoaLuanTotNghiep.Controllers
 
             TAIKHOAN account = model.TAIKHOANs.Where(t => t.USING == true).SingleOrDefault();
             THONGTINTAIKHOAN accountInfo = null;
+            List<CHUDE> listcd = new List<CHUDE>();
             List<CHUDE> listChude = new List<CHUDE>();
             if (id == null)
             {
-              listChude  = model.CHUDEs.ToList();
+                listcd = model.CHUDEs.Where(t=>t.IDTK1 == null || t.IDTK1 == account.IDTK).ToList();
             }
             else
             {
-                listChude = model.CHUDEs.Where(t => t.TENCD.ToLower().Contains(id.ToLower())).ToList();
+                listcd = model.CHUDEs.Where(t => t.IDTK1 == null || t.IDTK1 == account.IDTK).Where(t => t.TENCD.ToLower().Contains(id.ToLower())).ToList();
+            }
+            for(int i = 0; i < listcd.Count; i++)
+            {
+                if(listcd[i].TENCD.ToLower().Equals("yêu thích"))
+                {
+                    listChude.Add(listcd[i]);  
+                }
+            }
+            for (int i = 0; i < listcd.Count; i++)
+            {
+                if (!listcd[i].TENCD.ToLower().Equals("yêu thích"))
+                {
+                    listChude.Add(listcd[i]);
+                }
             }
             //List<TUVUNGONTAP> tUVUNGONTAPs = model.TUVUNGONTAPs.Join(model.CHUDEs, tv => tv.IDCD, cd => cd.IDCD, (tv, cd) => new { tv, cd }).Where(t => t.cd.IDTK == account.IDTK).Select(t => t.tv).ToList();
             List<TUVUNGONTAP> listTv = new List<TUVUNGONTAP>();
@@ -56,7 +70,7 @@ namespace KhoaLuanTotNghiep.Controllers
         public ActionResult Topic(string topic)
         {
             TAIKHOAN account = model.TAIKHOANs.Where(t => t.USING == true).SingleOrDefault();
-            model.CHUDEs.Add(new CHUDE(topic, account.IDTK));
+            model.CHUDEs.Add(new CHUDE(topic, account.IDTK,null,null));
             model.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -278,7 +292,9 @@ namespace KhoaLuanTotNghiep.Controllers
         public ActionResult addWord(int idtv , int idcd)
         {
             TUVUNGONTAP tuvung = model.TUVUNGONTAPs.Where(t => t.IDTV == idtv).SingleOrDefault();
-            TUVUNGONTAP tuvungadd = new TUVUNGONTAP(tuvung.TENTV, tuvung.NGHIATV, tuvung.PHIENAM, tuvung.VDTV, tuvung.ANHTUVUNG, 2);
+            TAIKHOAN account = model.TAIKHOANs.Where(t => t.USING == true).SingleOrDefault();
+            CHUDE chude = model.CHUDEs.Where(t => t.IDTK1 == account.IDTK).SingleOrDefault();
+            TUVUNGONTAP tuvungadd = new TUVUNGONTAP(tuvung.TENTV, tuvung.NGHIATV, tuvung.PHIENAM, tuvung.VDTV, tuvung.ANHTUVUNG, chude.IDCD);
             model.TUVUNGONTAPs.Add(tuvungadd);
             model.SaveChanges();
             return RedirectToAction("learnCard", new { id = idcd });
@@ -287,10 +303,12 @@ namespace KhoaLuanTotNghiep.Controllers
         public ActionResult removeWord(int idtv, int idcd)
         {
             TUVUNGONTAP tuvung = model.TUVUNGONTAPs.Where(t => t.IDTV == idtv).SingleOrDefault();
-            TUVUNGONTAP tuvungremove = model.TUVUNGONTAPs.Where(t => t.IDCD == 2).Where(t => t.TENTV.ToLower().Equals(tuvung.TENTV.ToLower())).SingleOrDefault();
+            TAIKHOAN account = model.TAIKHOANs.Where(t => t.USING == true).SingleOrDefault();
+            CHUDE chude = model.CHUDEs.Where(t => t.IDTK1 == account.IDTK).SingleOrDefault();
+            TUVUNGONTAP tuvungremove = model.TUVUNGONTAPs.Where(t => t.IDCD == chude.IDCD).Where(t => t.TENTV.ToLower().Equals(tuvung.TENTV.ToLower())).SingleOrDefault();
             model.TUVUNGONTAPs.Remove(tuvungremove);
             model.SaveChanges();
-            if (idcd != 2)
+            if (idcd != chude.IDCD)
             {
                 return RedirectToAction("learnCard", new { id = idcd });
             }

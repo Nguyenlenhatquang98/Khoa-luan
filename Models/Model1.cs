@@ -8,7 +8,7 @@ namespace KhoaLuanTotNghiep.Models
     public partial class Model1 : DbContext
     {
         public Model1()
-            : base("name=Model1")
+            : base("name=Model11")
         {
         }
 
@@ -42,6 +42,11 @@ namespace KhoaLuanTotNghiep.Models
             modelBuilder.Entity<TAIKHOAN>()
                 .Property(e => e.MATKHAU)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<TAIKHOAN>()
+                .HasMany(e => e.CHUDEs)
+                .WithOptional(e => e.TAIKHOAN)
+                .HasForeignKey(e => e.IDTK1);
 
             modelBuilder.Entity<THONGTINADMIN>()
                 .Property(e => e.EMAIL)

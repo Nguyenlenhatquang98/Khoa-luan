@@ -81,3 +81,10 @@ C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\obj\Debug\KhoaLuanTotNghiep.c
 C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\obj\Debug\KhoaLuanTotNghiep.csproj.CopyComplete
 C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\obj\Debug\KhoaLuanTotNghiep.dll
 C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\obj\Debug\KhoaLuanTotNghiep.pdb
+C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\bin\ExcelDataReader.dll
+C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\bin\System.Text.Encoding.CodePages.dll
+C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\bin\ExcelDataReader.pdb
+C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\bin\ExcelDataReader.xml
+C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Nhat Quang\source\repos\KhoaLuanTotNghiep\bin\System.Text.Encoding.CodePages.xml

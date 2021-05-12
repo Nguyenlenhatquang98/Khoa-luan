@@ -55,6 +55,7 @@
     .flashcard-item1:not(:nth-child(4n)) {
         margin-right: 30px;
     }
+
     .modal-backdrop {
         position: fixed;
         top: 0;
@@ -127,37 +128,37 @@
 
         @if (listTV.Count > 0)
         {
-            @Html.Partial("~/Views/Vocabulary/FLashcard.cshtml", listTV[0])
+            @Html.Partial("~/Views/Home/FLashcard.cshtml", listTV[0])
         }
 
     </div>
 </div>
 
-<div class="modal" id="myModalFile">
-    <div class="modal-dialog">
-        <div class="modal-content">
+@using (Html.BeginForm("addFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal" id="myModalFile">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Thêm từ vựng qua File</h4>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Thêm từ vựng qua File</h4>
+                </div>
+
+  
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input type="file" name="excelfile" style="border:none;height:100%;" /><br />
+                    <input type="submit" value="Thêm" class=" mt-3 btn btn-success w-100">
+                    <input type="text" name="topicID" id="topicId" class="w-100" value="@idCD1" @*style="opacity:0;height:1px;"*@ />
+
+                </div>
+
             </div>
-
-            @*@using (Html.BeginForm("AddFileVocab", "Home"))
-                {*@
-            <!-- Modal body -->
-            <div class="modal-body">
-                <input type="file" name="file" style="border:none;height:100%;" /><br />
-                <input type="submit" value="Thêm" class=" mt-3 btn btn-success w-100">
-                <input type="text" name="topicID" id="topicId" class="w-100" style="opacity:0;height:1px;" />
-
-            </div>
-            @*}*@
-
-
-
         </div>
     </div>
-</div>
+}
+
 
 <script>
     $(document).ready(function () {
@@ -165,7 +166,7 @@
         $(`.flashcard-item1`).click(function () {
             $.ajax({
                 method: "GET",
-                url: '/Vocabulary/Flashcard',
+                url: '/Home/Flashcard',
                 data: { data1: $(this).attr("id") },
                 success: function (kq) {
                     $(`#card-container`).html(kq);
@@ -176,7 +177,7 @@
         $(`#add-TV`).click(function () {
             $.ajax({
                 method: "GET",
-                url: '/Vocabulary/FlashcardCreate',
+                url: '/Home/FlashcardCreate',
                 data: { data1: $(`#idcd`).attr("value") },
                 success: function (kq) {
                     $(`#card-container`).html(kq);

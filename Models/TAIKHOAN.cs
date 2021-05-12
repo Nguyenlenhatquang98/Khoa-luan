@@ -12,6 +12,7 @@ namespace KhoaLuanTotNghiep.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TAIKHOAN()
         {
+            CHUDEs = new HashSet<CHUDE>();
             NHOMTAIKHOANs = new HashSet<NHOMTAIKHOAN>();
             TAIKHOANPHONGLUYENTAPs = new HashSet<TAIKHOANPHONGLUYENTAP>();
             THONGTINTAIKHOANs = new HashSet<THONGTINTAIKHOAN>();
@@ -32,6 +33,9 @@ namespace KhoaLuanTotNghiep.Models
         public bool? USING { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHUDE> CHUDEs { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NHOMTAIKHOAN> NHOMTAIKHOANs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -39,7 +43,8 @@ namespace KhoaLuanTotNghiep.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<THONGTINTAIKHOAN> THONGTINTAIKHOANs { get; set; }
-        public TAIKHOAN(string tENDN, string mATKHAU,DateTime tHOIGIANDANGKY , bool? uSING)
+
+        public TAIKHOAN(string tENDN, string mATKHAU, DateTime tHOIGIANDANGKY, bool? uSING)
         {
             TENDN = tENDN;
             MATKHAU = mATKHAU;

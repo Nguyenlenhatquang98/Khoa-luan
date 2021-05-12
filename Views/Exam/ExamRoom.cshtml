@@ -260,7 +260,22 @@
                     <li style="text-align:center; padding:5px;">
                         <div style="background-color:#f2f2f2;height:50px;margin-bottom:-15px; display:flex;flex-direction:row;justify-content:space-around;align-items:center;">
                             <h5 style="margin-top:5px;">@i.</h5>
-                            <h5 style="margin-top:5px;">@accountinfo.TEN</h5>
+                            @{
+                                
+                                string[] tachten = null;
+                                string ten = null;
+                                if (accountinfo.TEN.Length > 10)
+                                {
+                                    tachten = accountinfo.TEN.Split(' ');
+                                    ten = tachten[tachten.Length - 1];
+                                    <h5 style="margin-top:5px;">@ten</h5>
+                                }
+                                else
+                                {
+                                    <h5 style="margin-top:5px;">@accountinfo.TEN</h5>
+                                }
+                            }
+
                             <p style="margin-top:15px;">@item.DIEMTHI</p>
                         </div>
                     </li>

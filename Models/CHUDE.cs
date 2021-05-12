@@ -26,15 +26,20 @@ namespace KhoaLuanTotNghiep.Models
 
         public int? IDTK { get; set; }
 
+        public int? IDTK1 { get; set; }
+
         public virtual ADMIN ADMIN { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TUVUNGONTAP> TUVUNGONTAPs { get; set; }
 
-        public CHUDE(string tENCD, int? iDTK)
+        public virtual TAIKHOAN TAIKHOAN { get; set; }
+        public CHUDE(string tENCD, int? iDTK, string aNHCD, int? iDTK1)
         {
             TENCD = tENCD;
             IDTK = iDTK;
+            ANHCD = aNHCD;
+            IDTK1 = iDTK1;
         }
     }
 }

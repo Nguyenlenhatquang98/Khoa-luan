@@ -35,7 +35,10 @@
 @{ 
     Model1 model = new Model1();
     ADMIN admin = model.ADMINs.Where(t => t.USING == true).SingleOrDefault();
+    THONGTINADMIN admininfo = model.THONGTINADMINs.Where(t => t.IDTK == admin.IDTK).SingleOrDefault();
 }
+
+
 
     <div class="navbar1">
         <h3>
@@ -50,10 +53,23 @@
         }
         else
         {
-            <ul>
+            <ul style="margin-top:-10px;">
+                @{
+                    string[] tachten = null;
+                    string ten = null;
+                    if (admininfo.TEN.Length > 10)
+                    {
+                        tachten = admininfo.TEN.Split(' ');
+                        ten = tachten[tachten.Length - 1];
+                        <li>@ten</li>
+                    }
+                    else
+                    {
+                        <li>@admininfo.TEN</li>
+                    }
+                }
 
-                <li>@admin.THONGTINADMINs.SingleOrDefault().TEN</li>
-                <li>@Html.ActionLink("Đăng xuất", "Logout", "Home")</li>
+                <li>@Html.ActionLink("Đăng xuất", "Logout", "Home",new { @style="position:absolute;right:30px;top:5px;"})</li>
             </ul>
         }
 

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace KhoaLuanTotNghiep.Controllers
 {
@@ -90,6 +91,8 @@ namespace KhoaLuanTotNghiep.Controllers
                     Gender = false;
                 }
                 THONGTINTAIKHOAN accountInfo = model.THONGTINTAIKHOANs.Add(new THONGTINTAIKHOAN(name, ngaySinh, Gender, account.IDTK));
+                CHUDE chude = new CHUDE("Yêu thích", null, "/Img/favourite/star.jpg", account.IDTK);
+                model.CHUDEs.Add(chude);
                 model.SaveChanges();
                 return View("Home", accountInfo);
             }
@@ -174,14 +177,108 @@ namespace KhoaLuanTotNghiep.Controllers
             return View("AdminInfo",Admininfo);
         }
 
-        public ActionResult Admin()
+        public ActionResult Admin(string month, string year, string accountName)
         {
-            List<TAIKHOAN> accounts = model.TAIKHOANs.ToList();
+            List<TAIKHOAN> accounts  = model.TAIKHOANs.ToList();
             List<THONGTINTAIKHOAN> listaccount = new List<THONGTINTAIKHOAN>();
-            foreach (var item in accounts)
+            if (accountName == null)
             {
-                var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
-                listaccount.Add(accountinfo);
+                foreach (var item in accounts)
+                {
+                    if (month == null && year == null)
+                    {
+                        var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                        listaccount.Add(accountinfo);
+                    }
+                    else
+                    {
+                        int month1 = Convert.ToInt32(month);
+                        int year1 = Convert.ToInt32(year);
+                        if (month1 == 0 && year1 == 0)
+                        {
+                            var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                            listaccount.Add(accountinfo);
+                        }
+                        if (month1 != 0 && year1 == 0)
+                        {
+                            if (item.THOIGIANDANGKY.Value.Month == month1)
+                            {
+                                var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                                listaccount.Add(accountinfo);
+                            }
+                        }
+                        if (month1 == 0 && year1 != 0)
+                        {
+                            if (item.THOIGIANDANGKY.Value.Year == year1)
+                            {
+                                var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                                listaccount.Add(accountinfo);
+                            }
+                        }
+                        else
+                        {
+
+                            if (item.THOIGIANDANGKY.Value.Year == year1 && item.THOIGIANDANGKY.Value.Month == month1)
+                            {
+                                var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                                listaccount.Add(accountinfo);
+                            }
+                        }
+                    }
+            
+            
+            
+                }
+                
+            }
+            else
+            {
+                foreach (var item in accounts)
+                {
+                    if (month == null && year == null)
+                    {
+                        var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                        listaccount.Add(accountinfo);
+                    }
+                    else
+                    {
+                        int month1 = Convert.ToInt32(month);
+                        int year1 = Convert.ToInt32(year);
+                        if (month1 == 0 && year1 == 0)
+                        {
+                            var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                            listaccount.Add(accountinfo);
+                        }
+                        if (month1 != 0 && year1 == 0)
+                        {
+                            if (item.THOIGIANDANGKY.Value.Month == month1)
+                            {
+                                var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                                listaccount.Add(accountinfo);
+                            }
+                        }
+                        if (month1 == 0 && year1 != 0)
+                        {
+                            if (item.THOIGIANDANGKY.Value.Year == year1)
+                            {
+                                var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                                listaccount.Add(accountinfo);
+                            }
+                        }
+                        else
+                        {
+
+                            if (item.THOIGIANDANGKY.Value.Year == year1 && item.THOIGIANDANGKY.Value.Month == month1)
+                            {
+                                var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
+                                listaccount.Add(accountinfo);
+                            }
+                        }
+                    }
+
+                    listaccount = listaccount.Where(t => t.TEN.ToLower().Contains(accountName.ToLower())).ToList();
+
+                }
             }
             return View(listaccount);
         }
@@ -194,13 +291,20 @@ namespace KhoaLuanTotNghiep.Controllers
             return View(listphongthi) ;
         }
 
-        public ActionResult TopicAdmin()
+        public ActionResult TopicAdmin( string searchTopic)
         {
             THONGTINADMIN admin = model.THONGTINADMINs.Where(t => t.ADMIN.USING == true).SingleOrDefault();
-            List<CHUDE> listcd = model.CHUDEs.ToList();
-            List<TUVUNGONTAP> listTV = model.TUVUNGONTAPs.ToList();
-            Tuple<List<CHUDE>, List<TUVUNGONTAP>> tuple = new Tuple<List<CHUDE>, List<TUVUNGONTAP>>(listcd, listTV);
-            ViewData["tuple"] = tuple;
+            List<CHUDE> listcd = new List<CHUDE>();
+            if (searchTopic == null)
+            {
+                listcd = model.CHUDEs.Where(t=>t.IDTK==admin.IDTK).ToList();
+            }
+            else
+            {
+                listcd = model.CHUDEs.Where(t => t.IDTK == admin.IDTK).Where(t => t.TENCD.ToLower().Contains(searchTopic.ToLower())).ToList();
+            }
+            
+            ViewData["listcd"] = listcd;
             return View(admin);
         }
 
@@ -233,5 +337,248 @@ namespace KhoaLuanTotNghiep.Controllers
             ViewData["tuple"] = tuple;
             return View(admin);
         }
+
+        public PartialViewResult InfoAccount(int data1)
+        {
+            var accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == data1).SingleOrDefault();
+            return PartialView(accountinfo);
+        }
+
+        public ActionResult StatisticAccount(string month,string year)
+        {
+            return RedirectToAction("Admin", new { month = month, year = year });
+        }
+
+        public ActionResult findAccount(string accountName)
+        {
+            return RedirectToAction("Admin", new { accountName= accountName});
+        }
+
+        public ActionResult SearchTopic(string searchTopic)
+        {
+            return RedirectToAction("TopicAdmin", new { searchTopic = searchTopic });
+        }
+
+        public ActionResult TopicAddAdmin(HttpPostedFileBase file,string topic)
+        {
+            CHUDE chude;
+            ADMIN admin = model.ADMINs.Where(t => t.USING == true).SingleOrDefault();
+            if(file == null)
+            {
+                chude = new CHUDE(topic, admin.IDTK, null,null);
+                model.CHUDEs.Add(chude);
+                model.SaveChanges();
+            }
+            else
+            {
+                string filename = Path.GetFileName(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                string path = Path.Combine(Server.MapPath("/Img/"), filename);
+                model.CHUDEs.Add(new CHUDE(topic,admin.IDTK,"/Img/" + filename,null));
+                if (extension.ToLower() == ".jpg" || extension.ToLower() == ".jpeg" || extension.ToLower() == ".png")
+                {
+                    if (file.ContentLength <= 1000000)
+                    {
+
+                        if (model.SaveChanges() > 0)
+                        {
+                            file.SaveAs(path);
+                        }
+                    }
+                }
+            }
+            return RedirectToAction("TopicAdmin");
+        }
+
+        public ActionResult TopicEditAdmin(string topic, string topicID, HttpPostedFileBase file)
+        {
+            int IDTopic = Convert.ToInt32(topicID);
+            CHUDE chude = model.CHUDEs.Where(t => t.IDCD == IDTopic).SingleOrDefault();
+            chude.TENCD = topic;
+            if (file != null)
+            {
+                string filename = Path.GetFileName(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                string path = Path.Combine(Server.MapPath("/Img/"), filename);
+                chude.ANHCD = "/Img/" + filename;
+                if (extension.ToLower() == ".jpg" || extension.ToLower() == ".jpeg" || extension.ToLower() == ".png")
+                {
+                    if (file.ContentLength <= 1000000)
+                    {
+
+                        if (model.SaveChanges() > 0)
+                        {
+                            file.SaveAs(path);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                model.SaveChanges();
+            }
+            return RedirectToAction("TopicAdmin");
+        }
+
+        public ActionResult deleteTopic(int TopicID)
+        {
+            CHUDE chude = model.CHUDEs.Where(t => t.IDCD == TopicID).SingleOrDefault();
+            List<TUVUNGONTAP> listTV = model.TUVUNGONTAPs.Where(t => t.IDCD == chude.IDCD).ToList();
+            if (listTV.Count() == 0)
+            {
+                model.CHUDEs.Remove(chude);
+                model.SaveChanges();
+            }
+            else
+            {
+                foreach(var item in listTV)
+                {
+                    model.TUVUNGONTAPs.Remove(item);
+                    model.SaveChanges();
+                }
+                model.CHUDEs.Remove(chude);
+                model.SaveChanges();
+            }
+ 
+            return RedirectToAction("TopicAdmin");
+        }
+
+        public ActionResult SearchWord(string idcd,string searchWord)
+        {
+            int IDCD = Convert.ToInt32(idcd);
+            return RedirectToAction("details", new { id = IDCD, searchWord = searchWord });
+        }
+        [HttpPost]
+        public ActionResult EditVocab(HttpPostedFileBase file, string id, string name, string meaning, string example, string idCD)
+        {
+            var account = model.ADMINs.Where(t => t.USING == true).SingleOrDefault();
+            var accountinfo = model.THONGTINADMINs.Where(t => t.IDTK == account.IDTK).SingleOrDefault();
+            int ID = Int32.Parse(id);
+            int IDCD = Int32.Parse(idCD);
+            TUVUNGONTAP tuvung = model.TUVUNGONTAPs.Where(t => t.IDTV == ID).SingleOrDefault();
+            tuvung.TENTV = name;
+            tuvung.NGHIATV = meaning;
+            tuvung.VDTV = example;
+            if (file != null)
+            {
+                string filename = Path.GetFileName(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                string path = Path.Combine(Server.MapPath("/Img/"), filename);
+                tuvung.ANHTUVUNG = "/Img/" + filename;
+                if (extension.ToLower() == ".jpg" || extension.ToLower() == ".jpeg" || extension.ToLower() == ".png")
+                {
+                    if (file.ContentLength <= 1000000)
+                    {
+                        if (model.SaveChanges() > 0)
+                        {
+                            file.SaveAs(path);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                model.SaveChanges();
+            }
+            return RedirectToAction("details", new { id = IDCD });
+        }
+
+        public PartialViewResult Flashcard(int data1)
+        {
+            TUVUNGONTAP tuvung = model.TUVUNGONTAPs.Where(t => t.IDTV == data1).SingleOrDefault();
+            return PartialView(tuvung);
+        }
+
+        public PartialViewResult FlashcardCreate(int data1)
+        {
+            CHUDE chude = model.CHUDEs.Where(t => t.IDCD == data1).SingleOrDefault();
+            return PartialView(chude);
+        }
+
+        public ActionResult DeleteTV(int id, int idCD)
+        {
+            var account = model.ADMINs.Where(t => t.USING == true).SingleOrDefault();
+            var accountinfo = model.THONGTINADMINs.Where(t => t.IDTK == account.IDTK).SingleOrDefault();
+            TUVUNGONTAP tuvung = model.TUVUNGONTAPs.Where(t => t.IDTV == id).SingleOrDefault();
+            CHUDE chude = model.CHUDEs.Where(t => t.IDCD == idCD).SingleOrDefault();
+            model.TUVUNGONTAPs.Remove(tuvung);
+            model.SaveChanges();
+            return RedirectToAction("details", new { id = idCD });
+        }
+
+        public ActionResult CreateTV(HttpPostedFileBase file, string name, string meaning, string example, int idCD)
+        {
+            var account = model.ADMINs.Where(t => t.USING == true).SingleOrDefault();
+            var accountinfo = model.THONGTINADMINs.Where(t => t.IDTK == account.IDTK).SingleOrDefault();
+            //int IDCD = Int32.Parse(idCD);
+
+            if (file != null)
+            {
+                string filename = Path.GetFileName(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                string path = Path.Combine(Server.MapPath("/Img/"), filename);
+                model.TUVUNGONTAPs.Add(new TUVUNGONTAP(name, meaning, null, example, "/Img/" + filename, idCD));
+                if (extension.ToLower() == ".jpg" || extension.ToLower() == ".jpeg" || extension.ToLower() == ".png")
+                {
+                    if (file.ContentLength <= 1000000)
+                    {
+
+                        if (model.SaveChanges() > 0)
+                        {
+                            file.SaveAs(path);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                model.TUVUNGONTAPs.Add(new TUVUNGONTAP(name, meaning, null, example, null, idCD));
+                model.SaveChanges();
+            }
+            List<TUVUNGONTAP> listTV = model.TUVUNGONTAPs.Where(t => t.IDCD == idCD).ToList();
+            return RedirectToAction("details", new { id = idCD });
+        }
+
+
+        public ActionResult addFile(HttpPostedFileBase excelfile, string topicID)
+        {
+            int idCD = Convert.ToInt32(topicID);
+            if (excelfile == null || excelfile.ContentLength == 0)
+            {
+                return RedirectToAction("details", new { id = idCD });
+            }
+            else
+            {
+                if(excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+                {
+                    string path = Server.MapPath("~/files/" + excelfile.FileName);
+                    if (System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+                    excelfile.SaveAs(path);
+                    Excel.Application application = new Excel.Application();
+                    Excel.Workbook workbook = application.Workbooks.Open(path);
+                    Excel.Worksheet worksheet = workbook.ActiveSheet;
+                    Excel.Range range = worksheet.UsedRange;
+                    List<TUVUNGONTAP> listTV = new List<TUVUNGONTAP>();
+                    for(int row = 2;row <= range.Rows.Count; row++)
+                    {
+                        TUVUNGONTAP tv = new TUVUNGONTAP();
+                        tv.TENTV = ((Excel.Range)range.Cells[row, 1]).Text;
+                        tv.NGHIATV = ((Excel.Range)range.Cells[row, 2]).Text;
+                        tv.ANHTUVUNG = ((Excel.Range)range.Cells[row,3]).Text;
+                        tv.IDCD = idCD;
+                        model.TUVUNGONTAPs.Add(tv);
+                        model.SaveChanges();
+                    }
+                    return RedirectToAction("details", new { id = idCD });
+                }
+                else
+                {
+                    return RedirectToAction("details", new { id = idCD });
+                }
+            }
+            
+        }
+
     }
 }

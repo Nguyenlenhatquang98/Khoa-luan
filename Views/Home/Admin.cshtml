@@ -6,10 +6,17 @@
     Model1 model = new Model1();
     List<THONGTINTAIKHOAN> listTK = Model as List<THONGTINTAIKHOAN>;
 }
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/style.css" />
 <style>
     .listAccount a {
         background-color: rgb(230, 230, 230);
     }
+
     .body1 {
         background-image: url(https://kidsgoflash.com/wp-content/uploads/2017/02/kidsgoflash_sky_birds2.jpg);
         background-color: rgba(255,255,255,0.7);
@@ -18,39 +25,46 @@
         background-size: cover;
         background-repeat: no-repeat;
     }
-  
 </style>
 
 <div class="body1" style="margin-left:-20px;width:1305px;height:710px;display:flex;flex-direction:row;">
     <div style="margin-left:38px;margin-top:38px;height:630px;width:60%;background-color:rgba(222, 236, 237,0.8);padding:30px;">
         <div style="width:100%;height:40px;margin-bottom:30px;display:flex;justify-content:space-between;">
-            <select id="month" style="height:100%;width:20%;">
-                @for (int i = 1; i <= 12; i++)
-                {
-                    <option value="@i">@i</option>
-                }
-            </select>
-            @{ 
-                int year = DateTime.Now.Year;
-            }
-        <select id="month" style="height:100%;width:20%;">
-            @for (int i = year - 20; i < year + 21; i++)
+            @using (Html.BeginForm("StatisticAccount", "Home", FormMethod.Post, new { @style = "width:100%;display:flex;justity-content:space-between;flex-direction:row;" }))
             {
-                if (i == year)
-                {
-                    <option value="@i" selected>@i</option>
-                }
-                else
-                {
-                    <option value="@i">@i</option>
-                }
+
+                <select name="month" class="month" id="month" style="height:100%;width:20%;">
+                    <option value="0" selected>Tháng</option>
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+
+
+                int year = DateTime.Now.Year;
+
+                <select name="year" class="year" id="year" style="height:100%;width:20%;margin-left:20px;">
+                    <option value="0" selected>Năm</option>
+                    @for (int i = year - 20; i < year + 21; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <input type="submit" name="name" value="Thống kê" style="margin-left:20px;" />
+
+
             }
-        </select>
-            <div style="position:relative;width:280px;"> 
-                <input type="text" name="searchWord" placeholder="Word ..." style="position:absolute;border-radius: 2rem; padding-left: 20px; outline: none; width: 100%; height: 100%; border: none; background-color: rgb(234, 234, 225);" />
-                <input type="submit" value="Search" style="position: absolute;border-radius:2rem; height:100%;width: 25%; display: flex; align-items: center; justify-content: center; background-color: rgb(30, 47, 47); color: white;right:0;" />
-            </div>
+            @using (Html.BeginForm("findAccount", "Home", FormMethod.Post, new { @style = "width:100%;display:flex;justity-content:space-between;flex-direction:row;margin-right:-120px;" }))
+            {
+                <div style="position:relative;width:300px;">
+                    <input type="text" name="accountName" placeholder="Word ..." style="position:absolute;border-radius: 2rem; padding-left: 20px; outline: none; width: 100%; height: 100%; border: none; background-color: rgb(234, 234, 225);" />
+                    <input type="submit" value="Search" style="position: absolute;border-radius:2rem; height:100%;width: 25%; display: flex; align-items: center; justify-content: center; background-color: rgb(30, 47, 47); color: white;right:0;" />
+                </div>
+            }
+
         </div>
+        
         <div style="width:100%;height:500px;overflow:auto;">
             <table class="table" style="width:100%;border:1px solid grey;">
                 <tr style="background-color:rgb(31, 46, 46); color:rgb(230, 230, 230);">
@@ -58,12 +72,18 @@
                     <th>Tên tài khoản</th>
                     <th>Thời gian đăng ký</th>
                     <th>Điểm</th>
+                    <svg class="updown-diem" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                         width="24" height="24"
+                         viewBox="0 0 172 172"
+                         style=" fill:#000000;position:absolute;left:970px;top:190px;">
+                        <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="#1f2e2e"></path><g fill="#ffffff"><path d="M99.3945,114.66667c-5.5255,0 -8.30617,6.665 -4.41467,10.59233l27.63467,27.89983c3.51883,3.5475 9.25217,3.5475 12.771,0l27.63467,-27.89983c3.8915,-3.92733 1.11083,-10.59233 -4.41467,-10.59233z"></path><path d="M143.33333,121.83333c0,0 0,-45.1715 0,-50.16667c0,-7.91917 -6.41417,-14.33333 -14.33333,-14.33333c-7.91917,0 -14.33333,6.41417 -14.33333,14.33333c0,4.99517 0,50.16667 0,50.16667z"></path><circle cx="18" cy="4" transform="scale(7.16667,7.16667)" r="2"></circle><path d="M77.02017,46.741l-27.63467,-27.89983c-3.51883,-3.5475 -9.25217,-3.5475 -12.771,0l-27.63467,27.89983c-3.8915,3.92733 -1.11083,10.59233 4.41467,10.59233h15.27217v43c0,7.91917 6.41417,14.33333 14.33333,14.33333c7.91917,0 14.33333,-6.41417 14.33333,-14.33333v-43h15.27217c5.5255,0 8.30617,-6.665 4.41467,-10.59233z" opacity="0.35"></path><circle cx="6" cy="20" transform="scale(7.16667,7.16667)" r="2" opacity="0.35"></circle></g></g>
+                    </svg>
                 </tr>
 
                 @for (int i = 0; i < listTK.Count(); i++)
                 {
-                    <tr>
-                        <td>@(i+1)</td>
+                    <tr class="tkinfo" id="@listTK[i].IDTK">
+                        <td>@(i + 1)</td>
                         <td>@listTK[i].TAIKHOAN.TENDN</td>
                         @{
                             int day = listTK[i].TAIKHOAN.THOIGIANDANGKY.Value.Day;
@@ -71,49 +91,52 @@
                             int year1 = listTK[i].TAIKHOAN.THOIGIANDANGKY.Value.Year;
                         }
                         <td>@day/@month/@year1</td>
-                        <td>@listTK[i].TAIKHOAN.TAIKHOANPHONGLUYENTAPs.SingleOrDefault().DIEMTHI</td>
+                        @{
+                            var tongdiem = 0;
+                            var listdiem = listTK[i].TAIKHOAN.TAIKHOANPHONGLUYENTAPs.ToList();
+                            if (listdiem.Count > 0)
+                            {
+                                foreach (var item in listdiem)
+                                {
+                                    tongdiem += Convert.ToInt32(item.DIEMTHI);
+                                }
+                            }
+                            <td>@tongdiem</td>
+                        }
                     </tr>
 
 
                 }
-                <tr>
-                    <td>2</td>
-                    <td>Hoang</td>
-                    <td>2/5/2021</td>
-                    <td>8</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Vu</td>
-                    <td>3/5/2021</td>
-                    <td>6</td>
-                </tr>
+
             </table>
         </div>
     </div>
-    <div style="margin-left:38px;width:415px;height:630px;margin-top:38px;background-color:rgba(222, 236, 237,0.8);padding:30px;">
-        <div style="width:100%;height:50%;margin-bottom:30px;box-shadow:0 0 5px grey;background-size:100% 100%;">
-            <img src="@Url.Content(listTK[0].ANHACC)" alt="Alternate Text" style="width:100%; height:100%; border-radius:2rem;" />
-        </div>
-        <div style="height:45%;background-color:rgba(255,255,255,0.4);box-shadow:0 0 5px grey;display:flex;flex-direction:row;">
-            <ul style="margin-left:-30px;font-size:1rem;list-style:none;width:40%;height:100%;display:flex;flex-direction:column;justify-content:space-around;align-items:flex-end;">
-                <li>Họ và tên :</li>
-                <li>Sinh nhật :</li>
-                <li>Giới tính :</li>
-                <li>Email :</li>
-                <li>Địa chỉ :</li>
-                <li>Số điện thoại :</li>
-            </ul>
-            <ul class="AccountInfo" style="margin-left: -25px; font-size: 1rem; list-style: none; width: 60%; height: 100%; display: flex; flex-direction: column; justify-content: space-around; align-items: flex-start;">
-                <li class="name">Nguyễn Lê Nhật Quang</li>
-                <li class="birthday1">29/08/1999</li>
-                <li class="gender">Nam</li>
-                <li class="email">quang@gmail.com</li>
-                <li class="address">86TQT</li>
-                <li class="phonenumber">0935734191</li>
-            </ul>
-        </div>
+    <div class="InfoContainer" style="margin-left:38px;width:415px;height:630px;margin-top:38px;background-color:rgba(222, 236, 237,0.8);padding:30px;">
+
+        @if (listTK.Count() > 0)
+        {
+            @Html.Partial("~/Views/Home/InfoAccount.cshtml", listTK[0])
+        }
     </div>
 
 
 </div>
+
+<script>
+    $(document).ready(function () {
+        $(`.tkinfo`).click(function () {
+            $.ajax({
+                method: "GET",
+                url: '/Home/InfoAccount',
+                data: { data1: $(this).attr("id") },
+                success: function (kq) {
+                    $(`.InfoContainer`).html(kq);
+                }
+            });
+        });
+
+       
+
+    });
+
+</script>

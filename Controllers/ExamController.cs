@@ -15,11 +15,19 @@ namespace KhoaLuanTotNghiep.Controllers
         {
             model = new Model1();
         }
-        public ActionResult Index()
+        public ActionResult Index(string findExam)
         {
             TAIKHOAN account = model.TAIKHOANs.Where(t => t.USING == true).SingleOrDefault();
             THONGTINTAIKHOAN accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == account.IDTK).SingleOrDefault();
-            List<PHONGLUYENTAP> listpt = model.PHONGLUYENTAPs.ToList();
+            List<PHONGLUYENTAP> listpt = new List<PHONGLUYENTAP>();
+            if (findExam == null)
+            {
+                listpt = model.PHONGLUYENTAPs.ToList();
+            }
+            else
+            {
+                listpt = model.PHONGLUYENTAPs.Where(t => t.TENPHONG.ToLower().Contains(findExam.ToLower())).ToList();
+            }
             List<TAIKHOANPHONGLUYENTAP> listtkpt = model.TAIKHOANPHONGLUYENTAPs.ToList();
 
             Tuple<List<PHONGLUYENTAP>, List<TAIKHOANPHONGLUYENTAP>> tuple = new Tuple<List<PHONGLUYENTAP>, List<TAIKHOANPHONGLUYENTAP>>(listpt, listtkpt);
@@ -85,6 +93,9 @@ namespace KhoaLuanTotNghiep.Controllers
             return RedirectToAction("ExamRoom", new { id = chuyenphonglt });
         }
 
-
+        public ActionResult searchExam(string searchExam)
+        {
+            return RedirectToAction("Index",new { findExam  = searchExam});
+        }
     }
 }

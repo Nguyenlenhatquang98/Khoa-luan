@@ -31,6 +31,5 @@ namespace KhoaLuanTotNghiep.Models
         {
             TENNHOM = tENNHOM;
         }
-
     }
 }
