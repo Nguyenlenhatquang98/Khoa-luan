@@ -21,7 +21,6 @@ namespace KhoaLuanTotNghiep.Models
         [StringLength(50)]
         public string TENCD { get; set; }
 
-        [StringLength(50)]
         public string ANHCD { get; set; }
 
         public int? IDTK { get; set; }
@@ -30,10 +29,10 @@ namespace KhoaLuanTotNghiep.Models
 
         public virtual ADMIN ADMIN { get; set; }
 
+        public virtual TAIKHOAN TAIKHOAN { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TUVUNGONTAP> TUVUNGONTAPs { get; set; }
-
-        public virtual TAIKHOAN TAIKHOAN { get; set; }
         public CHUDE(string tENCD, int? iDTK, string aNHCD, int? iDTK1)
         {
             TENCD = tENCD;

@@ -18,6 +18,9 @@ namespace KhoaLuanTotNghiep.Models
         [StringLength(50)]
         public string NGHIATV { get; set; }
 
+        [StringLength(50)]
+        public string PHIENAM { get; set; }
+
         [StringLength(100)]
         public string VDTV { get; set; }
 
@@ -28,7 +31,6 @@ namespace KhoaLuanTotNghiep.Models
         public int? IDN { get; set; }
 
         public virtual NHOM NHOM { get; set; }
-
         public TUVUNGNHOM(string tENTV, string nGHIATV, string vDTV, string aNHTUVUNG, int? iDN)
         {
             TENTV = tENTV;

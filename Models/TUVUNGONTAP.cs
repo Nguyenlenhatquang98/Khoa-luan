@@ -18,7 +18,7 @@ namespace KhoaLuanTotNghiep.Models
         [StringLength(50)]
         public string NGHIATV { get; set; }
 
-        [StringLength(100)]
+        [StringLength(50)]
         public string PHIENAM { get; set; }
 
         [StringLength(100)]

@@ -64,6 +64,7 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -237,23 +238,23 @@
     <Content Include="Img\color\red.png" />
     <Content Include="Img\color\white.jpg" />
     <Content Include="Img\color\yellow.png" />
-    <Content Include="Img\discription\beautiful.jpg" />
-    <Content Include="Img\discription\big.jpg" />
-    <Content Include="Img\discription\clean.jpg" />
-    <Content Include="Img\discription\dirty.jpg" />
-    <Content Include="Img\discription\discription.jpg" />
-    <Content Include="Img\discription\fat.jpg" />
-    <Content Include="Img\discription\happy.jpg" />
-    <Content Include="Img\discription\long.jpg" />
-    <Content Include="Img\discription\low.jpg" />
-    <Content Include="Img\discription\old.jpg" />
-    <Content Include="Img\discription\sad.jpg" />
-    <Content Include="Img\discription\short.jpg" />
-    <Content Include="Img\discription\small.jpg" />
-    <Content Include="Img\discription\tall.jpg" />
-    <Content Include="Img\discription\thin.jpg" />
-    <Content Include="Img\discription\ugly.jpg" />
-    <Content Include="Img\discription\young.jpg" />
+    <Content Include="Img\description\beautiful.jpg" />
+    <Content Include="Img\description\big.jpg" />
+    <Content Include="Img\description\clean.jpg" />
+    <Content Include="Img\description\dirty.jpg" />
+    <Content Include="Img\description\description.jpg" />
+    <Content Include="Img\description\fat.jpg" />
+    <Content Include="Img\description\happy.jpg" />
+    <Content Include="Img\description\long.jpg" />
+    <Content Include="Img\description\low.jpg" />
+    <Content Include="Img\description\old.jpg" />
+    <Content Include="Img\description\sad.jpg" />
+    <Content Include="Img\description\short.jpg" />
+    <Content Include="Img\description\small.jpg" />
+    <Content Include="Img\description\tall.jpg" />
+    <Content Include="Img\description\thin.jpg" />
+    <Content Include="Img\description\ugly.jpg" />
+    <Content Include="Img\description\young.jpg" />
     <Content Include="Img\family\aunt.png" />
     <Content Include="Img\family\baby.png" />
     <Content Include="Img\family\brother.png" />

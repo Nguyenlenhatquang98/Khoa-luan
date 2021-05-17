@@ -27,7 +27,6 @@ namespace KhoaLuanTotNghiep.Models
         [StringLength(50)]
         public string MATKHAU { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime? THOIGIANDANGKY { get; set; }
 
         public bool? USING { get; set; }
@@ -43,7 +42,6 @@ namespace KhoaLuanTotNghiep.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<THONGTINTAIKHOAN> THONGTINTAIKHOANs { get; set; }
-
         public TAIKHOAN(string tENDN, string mATKHAU, DateTime tHOIGIANDANGKY, bool? uSING)
         {
             TENDN = tENDN;

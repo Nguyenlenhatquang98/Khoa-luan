@@ -19,7 +19,6 @@ namespace KhoaLuanTotNghiep.Models
         public virtual NHOM NHOM { get; set; }
 
         public virtual TAIKHOAN TAIKHOAN { get; set; }
-
         public NHOMTAIKHOAN(int iDN, int iDTK)
         {
             IDN = iDN;

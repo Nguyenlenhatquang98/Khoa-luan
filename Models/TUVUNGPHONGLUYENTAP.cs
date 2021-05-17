@@ -18,7 +18,7 @@ namespace KhoaLuanTotNghiep.Models
         [StringLength(50)]
         public string NGHIATV { get; set; }
 
-        [StringLength(100)]
+        [StringLength(50)]
         public string PHIENAM { get; set; }
 
         [StringLength(100)]
@@ -31,5 +31,17 @@ namespace KhoaLuanTotNghiep.Models
         public int? IDPLT { get; set; }
 
         public virtual PHONGLUYENTAP PHONGLUYENTAP { get; set; }
+
+        public TUVUNGPHONGLUYENTAP()
+        {
+        }
+
+        public TUVUNGPHONGLUYENTAP(string tENTV, string nGHIATV, string aNHTUVUNG, int? iDPLT)
+        {
+            TENTV = tENTV;
+            NGHIATV = nGHIATV;
+            ANHTUVUNG = aNHTUVUNG;
+            IDPLT = iDPLT;
+        }
     }
 }

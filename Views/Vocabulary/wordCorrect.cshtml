@@ -10,6 +10,10 @@
 }
 
 <script src="https://code.responsivevoice.org/responsivevoice.js?key=G9wc7rFf"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
     .vocabulary a {
         background-color: rgb(230, 230, 230);
@@ -87,7 +91,7 @@
             </div>
             <div class="card-info back-info" style=" border:1px solid gray;  margin: 20px 20px 0 20px; height:480px;background-color:whitesmoke;width:91%;
     display: flex;display:flex;flex-direction:column;
-        flex-direction:column;align-items:flex-start;border-radius:2rem;transform:rotateY(-180deg); padding:30px 30px;">
+        flex-direction:column;align-items:flex-start;border-radius:2rem;transform:rotateY(-180deg); padding:30px 30px;overflow:auto;">
                 <h2 style="font-size:1.5rem;">Các từ không chính xác :</h2>
                 <ul id="wrong-contain">
                 </ul>
@@ -120,9 +124,13 @@
         var nextpage = 1;
         var idtv = [];
         var dem = 0;
+        var tld = 0;
+        var tls = 0;
+        var checktt = false;
         $(`.word-choose`).click(function () {
+            
             var sl = $(this).parent().attr("id").length;
-            responsiveVoice.speak($(this).text(), "UK English Female", { volume:1, rate: 0.75 });
+            responsiveVoice.speak($(this).text(), "UK English Female", { volume: 1, rate: 0.75 });
             idtv.push($(this).attr("id"));
             $(`#` + $(this).parent().attr("id")).children(`#` + bd).text($(this).text());
             $(this).hide();
@@ -130,15 +138,26 @@
             console.log(idtv);
 
             if (bd == sl) {
+                
                 var wordcorrect = $(this).parent().attr("id");
                 for (var i = 0; i < wordcorrect.length; i++) {
                     if ($(`#` + check + "-word").children(`.word`).children(`#` + i).text()[0].toLowerCase() != wordcorrect[i].toLowerCase()) {
                         console.log($(`#` + check + "-word").children(`.word`).children(`#` + i).text()[0].toLowerCase());
+                        if (checktt == false) {
+                            tls++;
+                            var node = document.createElement("li");
+                            var textnode = document.createTextNode(wordcorrect);
+                            node.className = "wrong-word";
+                            node.appendChild(textnode);
+                            document.getElementById("wrong-contain").appendChild(node);
+                            checktt = true;
+                        }
+                        document.getElementById("tls").textContent = "SỐ CÂU TRẢ LỜI SAI LÀ : " + tls;
                         setTimeout(function () {
-                           responsiveVoice.speak("Incorrect", "UK English Female", { volume: 1, rate: 0.75 });
+                            responsiveVoice.speak("Incorrect", "UK English Female", { volume: 1, rate: 0.75 });
                         }, 1000);
                         console.log(wordcorrect[i]);
-                        console.log("false");
+                        console.log(tls);
                         dem = 0;
                         break;
                     }
@@ -149,16 +168,25 @@
 
                 }
                 if (dem == wordcorrect.length) {
-                    var chuyen = false;
-                    console.log("true");
+                    if (checktt == false) {
+                        tld++;
+                        var node = document.createElement("li");
+                        var textnode = document.createTextNode(wordcorrect);
+                        node.className = "right-word";
+                        node.appendChild(textnode);
+                        
+                        document.getElementById("right-contain").appendChild(node);
+                    }
+                    document.getElementById("tld").textContent = "SỐ CÂU TRẢ LỜI ĐÚNG LÀ : " + tld;
+                    console.log(tld);
                     idtv = [];
                     setTimeout(function () {
-                       responsiveVoice.speak("Correct", "UK English Female", { volume: 1, rate: 0.75 });
-                    }, 1000);
+                        responsiveVoice.speak("Correct", "UK English Female", { volume: 1, rate: 0.75 });
+                    }, 500);
                     setTimeout(function () {
                         responsiveVoice.speak(wordcorrect, "UK English Female", { volume: 1, rate: 0.75 });
-                        
-                    }, 2000);
+
+                    }, 1500);
                     setTimeout(function () {
                         document.getElementById(nextpage + "-word").scrollIntoView();
                         nextpage++;
@@ -166,12 +194,12 @@
                         bd = 0;
                         console.log(dem);
                         dem = 0;
-                        console.log(check);
-                    },3000);
-                    
+                        checktt = false;
+                    }, 2000);
+
                 }
 
-
+                console.log("tld : " + tld + " tls : " + tls);
             }
         });
         $(`.word-char`).click(function () {

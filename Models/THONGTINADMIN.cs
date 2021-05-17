@@ -15,7 +15,6 @@ namespace KhoaLuanTotNghiep.Models
         [StringLength(50)]
         public string TEN { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime? NGAYSINH { get; set; }
 
         public bool? GIOITINH { get; set; }
@@ -26,11 +25,12 @@ namespace KhoaLuanTotNghiep.Models
         [StringLength(50)]
         public string DIACHI { get; set; }
 
-        [StringLength(15)]
+        [StringLength(50)]
         public string SODT { get; set; }
 
         public int? IDTK { get; set; }
 
+        [StringLength(50)]
         public string ANHACC { get; set; }
 
         public virtual ADMIN ADMIN { get; set; }

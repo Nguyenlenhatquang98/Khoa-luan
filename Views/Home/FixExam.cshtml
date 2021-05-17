@@ -4,8 +4,10 @@
     ViewBag.Title = "FixExam";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     Model1 model = new Model1();
-    Tuple<List<TUVUNGPHONGLUYENTAP>, int> tuple = ViewData["tuple"] as Tuple<List<TUVUNGPHONGLUYENTAP>, int>;
+    Tuple<List<TUVUNGPHONGLUYENTAP>, int, int> tuple = ViewData["tuple"] as Tuple<List<TUVUNGPHONGLUYENTAP>, int, int>;
     PHONGLUYENTAP plt = model.PHONGLUYENTAPs.Where(t => t.IDPLT == tuple.Item2).SingleOrDefault();
+    var tuvungtontai = tuple.Item1.Count();
+    var pltid = plt.IDPLT;
 }
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -22,50 +24,48 @@
         background-size: cover;
         background-repeat: no-repeat;
     }
+
     .practice .btn {
         background-color: rgb(230, 230, 230);
     }
-
-    th:first-child {
-        width: 20%;
-    }
-
-    th:not(:first-child) {
-        width: 40%;
-    }
-
-    td:first-child {
-        width: 20%;
-    }
-
-    td:not(:first-child) {
-        width: 40%;
-    }
 </style>
 
-<div style="margin-left:-20px;width:1306px;height:711px;padding:35px;display:flex;flex-direction:row;">
+<div style="margin-left:-20px;width:1306px;height:680px;padding:35px;display:flex;flex-direction:row;">
     <div style="height:100%;width:65%;background-color:rgba(222, 236, 237,0.8);padding:30px;">
-        <div style="border-radius:.5rem; width:100%; height: 50px;display:flex;align-items:center;flex-direction:row;justify-content:space-around;background-color:rgba(255,255,255,0.5);">
-            <h4>Số từ vựng : @tuple.Item1.Count()</h4>
+        <div class="nav-modify" style="border-radius:.5rem; width:100%; height: 50px;display:flex;align-items:center;flex-direction:row;justify-content:space-around;background-color:rgba(255,255,255,0.5);">
+            <div style="display:flex;flex-direction:row;">
+                <h4>Số từ vựng : </h4>
+                <h4 class="aov" style="margin:0 0 0 8px;">@tuvungtontai</h4>
+            </div>
             <div style="display:flex;flex-direction:row;">
                 <h4>Thời gian (Phút) : </h4>
-                <input type="number" id="time" name="time" min="1" max="1000" style="height:80%;width:90px;margin-top:3px;margin-left:10px;" value="@plt.THOIGIAN">
+                <input class="time" type="number" id="time" name="time" min="1" max="1000" style="height:100%;width:50px;margin-top:3px;margin-left:10px;" value="@plt.THOIGIAN">
             </div>
             <button class="add-word" style="padding:5px 20px;border:none;border-radius:2rem;background-color:#00a3cc;color:white;outline:none;">Thêm từ</button>
+            <button class="btn-danger" style="padding:5px 20px;border:none;border-radius:2rem;color:white;outline:none;" data-toggle="modal" data-target="#myModalFile">Thêm file</button>
         </div>
-        <div style="margin-top:30px;height:500px;overflow:auto;background-color:rgba(255,255,255,0.5);">
+        <div style="margin-top:30px;height:470px;overflow:auto;background-color:rgba(255,255,255,0.5);">
             <table class="table" style="width:100%;">
                 <tr style="background-color:rgb(31, 46, 46); color:rgb(230, 230, 230);">
                     <th>STT</th>
                     <th>Tên từ vựng</th>
                     <th>Nghĩa từ vựng</th>
+                    <th>Ảnh</th>
                 </tr>
                 @for (int i = 0; i < tuple.Item1.Count(); i++)
                 {
-                    <tr>
-                        <td id="@(i+1)">@(i+1)</td>
-                        <td id="@tuple.Item1[i].TENTV">@tuple.Item1[i].TENTV</td>
-                        <td id="@tuple.Item1[i].NGHIATV">@tuple.Item1[i].NGHIATV</td>
+                    <tr class="tuvung" id="@(i+1)">
+                        <td class="stt" id="@tuple.Item1[i].IDTV">@(i+1)</td>
+                        <td class="tentv" id="@(i+1)">@tuple.Item1[i].TENTV</td>
+                        <td class="nghiatv" id="@(i+1)">@tuple.Item1[i].NGHIATV</td>
+                        @if (tuple.Item1[i].ANHTUVUNG != null)
+                        {
+                            <td id="@(i+1)"><img style="width:50px;height:50px;" src="@tuple.Item1[i].ANHTUVUNG" /></td>
+                        }
+                        else
+                        {
+                            <td id="@tuple.Item1[i].ANHTUVUNG">Không có ảnh</td>
+                        }
                     </tr>
                 }
             </table>
@@ -73,37 +73,82 @@
     </div>
     <div style="height:100%;width:33%;margin-left:30px;background-color:rgba(222, 236, 237,0.8);padding:30px;">
         <div class="card-container">
-            <div class="card-info front-info" style=" border:1px solid gray; padding:30px; width:100%;height:520px;background-color:rgba(255,255,255,0.3);display: flex;display:flex;flex-direction:column;flex-direction:column;align-items:center;border-radius:2rem;">
-                <h3>1 / 10</h3><br />
-                <h1>Thông tin thẻ</h1><br />
-                <input type="text" name="name" value="Ocean" placeholder="Tên từ vựng ..." style="width:100%;height:50px;padding-left:20px;border-radius:.5rem;" /><br />
-                <input type="text" name="meaning" value="Đại dương" placeholder="Nghĩa từ vựng ..." style="width:100%;height:50px;padding-left:20px;border-radius:.5rem;" /><br />
-                <input type="file" name="file" style="margin-left:10px;"  /><br />
-                <div style="width:100%;height:50px;display:flex;flex-direction:row;justify-content:space-between;">
-                    <button class="btn-success" style="width:45%;height:100%;border-radius:.5rem;">Lưu</button>
-                    <button class="btn-danger" style="width:45%;height:100%;border-radius:.5rem;">Xóa</button>
-                </div>
-            </div>
-            @using (Html.BeginForm("EditVocab", "Vocabulary", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("EditVocabExam", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-        <div class="card-info back-info" style=" border:1px solid gray;padding:30px; width:100%;height:520px;background-color:rgba(255,255,255,0.3);display: flex;display:flex;flex-direction:column;flex-direction:column;align-items:center;border-radius:2rem;transform:rotateY(-180deg)">
-            <br />
-            <h1>Thông tin thẻ</h1><br />
-            <input type="text" name="name" value="" placeholder="Tên từ vựng ..." style="width:100%;height:50px;padding-left:20px;border-radius:.5rem;" /><br />
-            <input type="text" name="meaning" value="" placeholder="Nghĩa từ vựng ..." style="width:100%;height:50px;padding-left:20px;border-radius:.5rem;" /><br />
-            <input type="file" name="file" style="margin-left:10px;" /><br />
-            <div style="width:100%;height:50px;display:flex;flex-direction:row;justify-content:space-between;">
-                <button class="btn-success" style="width:100%;height:100%;border-radius:.5rem;">Lưu</button>
-            </div>
-        </div>
+                if (tuple.Item1.Count() > 0)
+                {
+                    <div class="card-info front-info" style=" border:1px solid gray; padding:30px; width:100%;height:480px;background-color:rgba(255,255,255,0.3);display: flex;flex-direction:column;flex-direction:column;align-items:center;border-radius:2rem;">
+                        <h3><span class="cauhoi">1</span> / <span class=".stv">@tuvungtontai</span></h3><br />
+                        <h1>Thông tin thẻ</h1><br />
+                        <input class="tentv" type="text" name="name" value="@tuple.Item1[0].TENTV" placeholder="Tên từ vựng ..." style="width:100%;height:50px;padding-left:20px;border-radius:.5rem;" /><br />
+                        <input class="nghiatv" type="text" name="meaning" value="@tuple.Item1[0].NGHIATV" placeholder="Nghĩa từ vựng ..." style="width:100%;height:50px;padding-left:20px;border-radius:.5rem;" /><br />
+                        <input type="file" name="file" style="margin-left:10px;" /><br />
+                        <div style="width:100%;height:50px;display:flex;flex-direction:row;justify-content:space-between;">
+                            <input type="submit" class="btn-success" style="width:45%;height:100%;border-radius:.5rem;" value="Lưu" />
+                            <button type="button" id="" class="btn-danger Xoa-tv" style="width:45%;height:100%;border-radius:.5rem;outline:none;">Xóa</button>
+                        </div>
+                        <input type="text" name="idplt" value="@tuple.Item2" style="height:0;opacity:0;" />
+                        <input class="idtv" type="text" name="idtv" value="1" style="height:0;opacity:0;" />
+                    </div>
+                }
+                else
+                {
+                    <div class="card-info front-info" style=" border:1px solid gray; padding:30px; width:100%;height:480px;background-color:rgba(255,255,255,0.3);display: flex;align-items:center;justify-content:center;border-radius:2rem;">
+                        <button type="button" class="add-word btn-secondary" style="padding:20px 40px;border:none;border-radius:2rem;color:white;outline:none;opacity:0.5;">Thêm từ</button>
+                    </div>
+
+                }
+            }
+            @using (Html.BeginForm("CreateVocabExam", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="card-info back-info" style=" border:1px solid gray;padding:30px; width:100%;height:480px;background-color:rgba(255,255,255,0.3);display: flex;display:flex;flex-direction:column;flex-direction:column;align-items:center;border-radius:2rem;transform:rotateY(-180deg)">
+                    <br />
+                    <h1>Thông tin thẻ</h1><br />
+                    <input type="text" name="name" value="" placeholder="Tên từ vựng ..." style="width:100%;height:50px;padding-left:20px;border-radius:.5rem;" /><br />
+                    <input type="text" name="meaning" value="" placeholder="Nghĩa từ vựng ..." style="width:100%;height:50px;padding-left:20px;border-radius:.5rem;" /><br />
+                    <input type="file" name="file" style="margin-left:10px;" /><br />
+                    <div style="width:100%;height:50px;display:flex;flex-direction:row;justify-content:space-between;">
+                        <input type="submit" class="btn-success" style="width:100%;height:100%;border-radius:.5rem;" value="Thêm" />
+                    </div>
+                    <input type="text" name="idplt" value="@tuple.Item2" style="height:0;opacity:0;" />
+                </div>
             }
         </div>
-        <button class="update-btn btn-success" style="margin-top:530px;width:100%;height:50px;border-radius:.5rem;outline:none;">Cập nhật bài luyện tập</button>
+        <button class="update-btn btn-success" style="margin-top:500px;width:100%;height:50px;border-radius:.5rem;outline:none;">Cập nhật bài luyện tập</button>
     </div>
 </div>
 
+
+@using (Html.BeginForm("addFileExam", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal" id="myModalFile">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Thêm từ vựng qua File</h4>
+                </div>
+
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input type="file" name="excelfile" style="border:none;height:100%;" /><br />
+                    <input type="submit" value="Thêm" class=" mt-3 btn btn-success w-100">
+                    <input type="text" name="pltID" id="topicId" class="w-100" value="@pltid" style="opacity:0;height:1px;" />
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+
 <script>
     $(document).ready(function () {
+
         var i = 0;
         $(`.add-word`).click(function () {
             i = i + 1;
@@ -116,5 +161,30 @@
                 $(`.back-info`).css("transform", "rotateY(-180deg)");
             }
         });
+
+        $(`.tuvung`).click(function () {
+            $(`.front-info`).children(".tentv").val($(this).children(`.tentv`).text());
+            $(`.front-info`).children(".nghiatv").val($(this).children(`.nghiatv`).text());
+            $(`.front-info`).children().children(".Xoa-tv").attr("id", $(this).children(`.stt`).attr("id"));
+            $(`.cauhoi`).text($(this).children(`.stt`).text());
+            $(`.idtv`).val($(this).children(`.stt`).attr("id"));
+        });
+
+
+
+        $(`.update-btn`).click(function () {
+            var sotv = $(`.nav-modify`).children().children(".aov").text();
+            var thoigian = $(`.nav-modify`).children().children(".time").val();
+            $.get(`@Url.Action("ModifyExam", "home")`, { sotv: sotv, thoigian: thoigian, idplt: @pltid});
+
+        });
+
+        $(`.Xoa-tv`).click(function () {
+            $.get(`@Url.Action("deleteVocabExam", "home")`, { id: $(this).attr("id"), idplt: @pltid });
+            location.reload();
+            location.reload();
+        });
+
+
     });
 </script>

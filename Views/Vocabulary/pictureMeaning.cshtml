@@ -32,6 +32,7 @@
     .word-choose:not(:first-child) {
         margin-left: 10px;
     }
+    
 </style>
 <div class="container-all" style="height:670px;padding:10px; display:flex;flex-direction:row;position:absolute;width:83%;top:60px;">
 
@@ -40,21 +41,22 @@
             <div class="word-container" id="word-container" style="overflow:hidden;height:100%;">
                 @for (var i = 0; i < listTV.Count(); i++)
                 {
-                <div id="@i-word" class="word-section" style="width:100%;height:100%;">
-                    <div class="picture-container" style="height:50%;width:100%; display:flex;justify-content:center;align-items:center;">
+                <div id="@i" class="word-section" style="width:100%;height:100%;padding-top:10px;">
+                    <div class="picture-container" style="display:flex;flex-direction:column;height:50%;width:100%; display:flex;justify-content:center;align-items:center;margin-top:10px;">
                         <div class="picture" style="width:50%;height:90%;border-radius:2rem;background-color: rgba(255, 255, 255,1);background-image:url('@listTV[i].ANHTUVUNG');background-size:50% 100%;background-repeat:no-repeat;background-position:center;opacity:0.8">
                         </div>
+                        <h5  style="margin-top:10px;text-transform:capitalize;color:white;">@listTV[i].NGHIATV</h5>
                     </div>
                     <div class="answer-container" style="height:50%;width:100%;padding:25px 40px 55px 40px;">
-                        <div class="word-container-frame" style="width:100%;height:100%;display:flex;flex-direction:row;flex-wrap:wrap;">
+                        <div class="word-container-frame" id="@listTV[i].TENTV" style="width:100%;height:100%;display:flex;flex-direction:row;flex-wrap:wrap;">
                             @{
                                 List<TUVUNGONTAP> list2 = listTV.Where(t => t.TENTV != listTV[i].TENTV).ToList();
                                 var list3 = list2.OrderBy(t => randn.Next()).Take(3).ToList();
                                 list3.Add(listTV[i]);
                                 foreach (var item1 in list3.OrderBy(t=>randn.Next()).ToList())
                                 {
-                                    <div class="btn-answer-frame" style="width:50%;height:50%;padding:10px;">
-                                        <button style="width:100%;height:100%;border-radius:.5rem;background-color:rgba(255,255,255,0.7);outline:none">@item1.TENTV</button>
+                                    <div class="btn-answer-frame" id="@listTV[i].NGHIATV" style="width:50%;height:50%;padding:10px;">
+                                        <button id="@item1.NGHIATV" class="btn-answer" style="width:100%;height:100%;border-radius:.5rem;background-color:rgba(255,255,255,0.7);outline:none">@item1.TENTV</button>
                                     </div>
                                 }
 
@@ -82,7 +84,7 @@
             </div>
             <div class="card-info back-info" style=" border:1px solid gray;  margin: 20px 20px 0 20px; height:480px;background-color:whitesmoke;width:91%;
     display: flex;display:flex;flex-direction:column;
-        flex-direction:column;align-items:flex-start;border-radius:2rem;transform:rotateY(-180deg); padding:30px 30px;">
+        flex-direction:column;align-items:flex-start;border-radius:2rem;transform:rotateY(-180deg); padding:30px 30px;overflow:auto;">
                 <h2 style="font-size:1.5rem;">Các từ không chính xác :</h2>
                 <ul id="wrong-contain">
                 </ul>
@@ -109,9 +111,11 @@
 
 
     $(document).ready(function () {
-       
-
-
+        var i = 0;
+        var temp = 0;
+        var tld = 0;
+        var tls = 0;
+        var checktt = false;
 
         $(`.btn-edit`).click(function () {
 
@@ -124,6 +128,61 @@
                 $(`.front-info`).css("transform", "rotateY(0)");
                 $(`.back-info`).css("transform", "rotateY(-180deg)");
             }
+        });
+
+        $(`.btn-answer`).click(function () {
+            console.log(checktt);
+            if ($(this).attr("id") == $(this).parent().attr("id")) {
+                var wordcorrect = $(this).parent().parent().attr("id");
+                setTimeout(function () {
+                    responsiveVoice.speak("Correct", "UK English Female", { volume: 1, rate: 0.75 });
+                }, 250);
+                setTimeout(function () {
+                    responsiveVoice.speak(wordcorrect, "UK English Female", { volume: 1, rate: 0.75 });
+
+                }, 1000);
+                if (checktt == false) {
+                    tld++;
+                    var node = document.createElement("li");
+                    var textnode = document.createTextNode($(this).parent().parent().attr("id"));
+                    node.className = "right-word";
+                    node.appendChild(textnode);
+                    document.getElementById("right-contain").appendChild(node);
+
+                    document.getElementById("tld").textContent = "SỐ CÂU TRẢ LỜI ĐÚNG LÀ : " + tld;
+                }
+                
+                setTimeout(function () {
+                    temp++;
+                    document.getElementById(temp).scrollIntoView();
+                    checktt = false;
+                }, 2000);
+                
+            }
+            else {
+                if (checktt == false) {
+                    tls++;
+                    var node = document.createElement("li");
+                    var textnode = document.createTextNode($(this).parent().parent().attr("id"));
+                    node.className = "wrong-word";
+                    node.appendChild(textnode);
+                    document.getElementById("wrong-contain").appendChild(node);
+
+                    document.getElementById("tls").textContent = "SỐ CÂU TRẢ LỜI SAI LÀ : " + tls;
+                    checktt = true;
+                }
+                setTimeout(function () {
+                    responsiveVoice.speak("InCorrect", "UK English Female", { volume: 1, rate: 0.75 });
+
+                }, 250);
+            }
+        });
+
+        $(`.btn-answer`).mouseenter(function () {
+            $(this).css("background-color", "rgba(255,255,255,1)");
+        });
+        $(`.btn-answer`).mouseleave(function () {
+            $(this).css("background-color", "rgba(255,255,255,0.7)");
         });
     });
 </script>

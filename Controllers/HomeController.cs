@@ -68,7 +68,7 @@ namespace KhoaLuanTotNghiep.Controllers
                 }
                 else
                 {
-                    ViewBag.message = "Username or password was wrong !";
+                    ViewBag.message = "Tên đăng nhập hoặc mật khẩu không chính xác, vui lòng thử lại !";
                     THONGTINTAIKHOAN accountInfo = null;
                     return View("Home", accountInfo);
                 }
@@ -98,7 +98,7 @@ namespace KhoaLuanTotNghiep.Controllers
             }
             else
             {
-                ViewBag.checkExist = "Account was already exist . Please choose another username";
+                ViewBag.checkExist = "Tên tài khoản đã tồn tại, vui lòng chọn tên tài khoản khác!";
                 THONGTINTAIKHOAN accountInfo = null;
                 return View("Home", accountInfo);
             }
@@ -333,7 +333,8 @@ namespace KhoaLuanTotNghiep.Controllers
         {
             THONGTINADMIN admin = model.THONGTINADMINs.Where(t => t.ADMIN.USING == true).SingleOrDefault();
             List<TUVUNGPHONGLUYENTAP> ListTv = model.TUVUNGPHONGLUYENTAPs.Where(t => t.IDPLT == id).ToList();
-            Tuple<List<TUVUNGPHONGLUYENTAP>, int> tuple = new Tuple<List<TUVUNGPHONGLUYENTAP>, int>(ListTv, id);
+            PHONGLUYENTAP plt = model.PHONGLUYENTAPs.Where(t => t.IDPLT == id).SingleOrDefault();
+            Tuple<List<TUVUNGPHONGLUYENTAP>, int, int> tuple = new Tuple<List<TUVUNGPHONGLUYENTAP>, int,int>(ListTv, id,Convert.ToInt32(plt.SOCAUHOI));
             ViewData["tuple"] = tuple;
             return View(admin);
         }
@@ -580,5 +581,178 @@ namespace KhoaLuanTotNghiep.Controllers
             
         }
 
+
+        public ActionResult PracticesCreate(string topic, int time)
+        {
+            ADMIN admin = model.ADMINs.Where(t => t.USING == true).SingleOrDefault();
+            PHONGLUYENTAP plt = new PHONGLUYENTAP(topic, 0, time, admin.IDTK);
+            model.PHONGLUYENTAPs.Add(plt);
+            model.SaveChanges();
+            return RedirectToAction("Practice");
+        }
+
+        public ActionResult DeleteExam(int id)
+        {
+            PHONGLUYENTAP plt = model.PHONGLUYENTAPs.Where(t => t.IDPLT == id).SingleOrDefault();
+            if(plt.TUVUNGPHONGLUYENTAPs.Count > 0)
+            {
+                foreach(var item in plt.TUVUNGPHONGLUYENTAPs.ToList())
+                {
+                    model.TUVUNGPHONGLUYENTAPs.Remove(item);
+                    model.SaveChanges();
+                }
+                model.PHONGLUYENTAPs.Remove(plt);
+                model.SaveChanges();
+            }
+            else
+            {
+                model.PHONGLUYENTAPs.Remove(plt);
+                model.SaveChanges();
+            }
+            return RedirectToAction("Practice");
+        }
+
+
+        public ActionResult CreateVocabExam(string name,string meaning, HttpPostedFileBase file,string idplt)
+        {
+
+            int Id = Convert.ToInt32(idplt);
+            PHONGLUYENTAP plt = model.PHONGLUYENTAPs.Where(t => t.IDPLT == Id).SingleOrDefault();
+            if (file != null)
+            {
+                string filename = Path.GetFileName(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                string path = Path.Combine(Server.MapPath("/Img/"), filename);
+                model.TUVUNGPHONGLUYENTAPs.Add(new TUVUNGPHONGLUYENTAP(name, meaning, "/Img/" + filename, Id));
+                if (extension.ToLower() == ".jpg" || extension.ToLower() == ".jpeg" || extension.ToLower() == ".png")
+                {
+                    if (file.ContentLength <= 1000000)
+                    {
+
+                        if (model.SaveChanges() > 0)
+                        {
+                            file.SaveAs(path);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                model.TUVUNGPHONGLUYENTAPs.Add(new TUVUNGPHONGLUYENTAP(name, meaning, null, Id));
+                model.SaveChanges();
+            }
+            if(plt.SOCAUHOI < plt.TUVUNGPHONGLUYENTAPs.Count)
+            {
+                plt.SOCAUHOI = plt.TUVUNGPHONGLUYENTAPs.Count();
+                model.SaveChanges();
+            }
+            return RedirectToAction("FixExam",new { id = Id});
+        }
+
+        public ActionResult EditVocabExam(string name, string meaning, HttpPostedFileBase file, string idplt , string idtv)
+        {
+
+            int IDPLT = Convert.ToInt32(idplt);
+            int IDTV = Convert.ToInt32(idtv);
+            TUVUNGPHONGLUYENTAP tuvung = model.TUVUNGPHONGLUYENTAPs.Where(t => t.IDPLT == IDPLT).Where(t => t.IDTV == IDTV).SingleOrDefault();
+            if (file != null)
+            {
+                string filename = Path.GetFileName(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                string path = Path.Combine(Server.MapPath("/Img/"), filename);
+                
+                tuvung.ANHTUVUNG = "/Img/" + filename;
+                tuvung.TENTV = name;
+                tuvung.NGHIATV = meaning;
+                if (extension.ToLower() == ".jpg" || extension.ToLower() == ".jpeg" || extension.ToLower() == ".png")
+                {
+                    if (file.ContentLength <= 1000000)
+                    {
+
+                        if (model.SaveChanges() > 0)
+                        {
+                            file.SaveAs(path);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                tuvung.TENTV = name;
+                tuvung.NGHIATV = meaning;
+                model.SaveChanges();
+            }
+            return RedirectToAction("FixExam", new { id = IDPLT });
+        }
+
+        public ActionResult ModifyExam(int sotv,int thoigian,int idplt)
+        {
+            PHONGLUYENTAP plt = model.PHONGLUYENTAPs.Where(t => t.IDPLT == idplt).SingleOrDefault();
+            plt.SOCAUHOI = sotv;
+            plt.THOIGIAN = thoigian;
+            model.SaveChanges();
+            return RedirectToAction("FixExam", new { id = idplt });
+        }
+
+
+
+        public ActionResult addFileExam(HttpPostedFileBase excelfile, string pltID)
+        {
+            int idPLT = Convert.ToInt32(pltID);
+            if (excelfile == null || excelfile.ContentLength == 0)
+            {
+                return RedirectToAction("FixExam", new { id = idPLT });
+            }
+            else
+            {
+                if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+                {
+                    string path = Server.MapPath("~/files/" + excelfile.FileName);
+                    if (System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+                    excelfile.SaveAs(path);
+                    Excel.Application application = new Excel.Application();
+                    Excel.Workbook workbook = application.Workbooks.Open(path);
+                    Excel.Worksheet worksheet = workbook.ActiveSheet;
+                    Excel.Range range = worksheet.UsedRange;
+                    List<TUVUNGPHONGLUYENTAP> listTV = new List<TUVUNGPHONGLUYENTAP>();
+                    for (int row = 2; row <= range.Rows.Count; row++)
+                    {
+                        TUVUNGPHONGLUYENTAP tv = new TUVUNGPHONGLUYENTAP();
+                        tv.TENTV = ((Excel.Range)range.Cells[row, 1]).Text;
+                        tv.NGHIATV = ((Excel.Range)range.Cells[row, 2]).Text;
+                        if(((Excel.Range)range.Cells[row, 3]).Text != "")
+                        {
+                            tv.ANHTUVUNG = ((Excel.Range)range.Cells[row, 3]).Text;
+                        }
+                        else
+                        {
+                            tv.ANHTUVUNG = null;
+                        }
+                        
+                        tv.IDPLT = idPLT;
+                        model.TUVUNGPHONGLUYENTAPs.Add(tv);
+                        model.SaveChanges();
+                    }
+                    return RedirectToAction("FixExam", new { id = idPLT });
+                }
+                else
+                {
+                    return RedirectToAction("FixExam", new { id = idPLT });
+                }
+            }
+
+        }
+
+        public ActionResult deleteVocabExam(int id, int idplt)
+        {
+            TUVUNGPHONGLUYENTAP tvplt = model.TUVUNGPHONGLUYENTAPs.Where(t => t.IDTV == id).SingleOrDefault();
+            model.TUVUNGPHONGLUYENTAPs.Remove(tvplt);
+            model.SaveChanges();
+            PHONGLUYENTAP plt = model.PHONGLUYENTAPs.Where(t => t.IDPLT == idplt).SingleOrDefault();
+            plt.SOCAUHOI = model.TUVUNGPHONGLUYENTAPs.Where(t => t.IDPLT == idplt).ToList().Count();
+            model.SaveChanges();
+            return RedirectToAction("FixExam", new { id = idplt });
+        }
     }
 }
