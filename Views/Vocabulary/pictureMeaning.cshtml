@@ -7,13 +7,30 @@
     Model1 model = new Model1();
     var tuple = ViewData["tuple"] as Tuple<List<TUVUNGONTAP>, int>;
     var listTV = tuple.Item1;
+    var idtrangkt = listTV.Count;
     Random randn = new Random();
 }
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.responsivevoice.org/responsivevoice.js?key=G9wc7rFf"></script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <style>
     .vocabulary a {
-        background-color: rgb(230, 230, 230);
+        background-color: rgba(0, 0, 0,0.2);
+    }
+    .btn-answer {
+        transition: all .5s;
     }
 
     body {
@@ -32,7 +49,105 @@
     .word-choose:not(:first-child) {
         margin-left: 10px;
     }
-    
+
+    .modal-confirm {
+        color: #636363;
+        width: 325px;
+        font-size: 14px;
+    }
+
+        .modal-confirm .modal-content {
+            padding: 20px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .modal-confirm .modal-header {
+            border-bottom: none;
+            position: relative;
+        }
+
+        .modal-confirm h4 {
+            text-align: center;
+            font-size: 26px;
+            margin: 30px 0 -15px;
+        }
+
+        .modal-confirm .form-control, .modal-confirm .btn {
+            min-height: 40px;
+            border-radius: 3px;
+        }
+
+        .modal-confirm .close {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        .modal-confirm .modal-footer {
+            border: none;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .modal-confirm .icon-box {
+            color: #fff;
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: -70px;
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            z-index: 9;
+            background: #82ce34;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+        }
+
+            .modal-confirm .icon-box i {
+                font-size: 58px;
+                position: relative;
+                top: 3px;
+            }
+
+        .modal-confirm.modal-dialog {
+            margin-top: 80px;
+        }
+
+        .modal-confirm .btn {
+            color: #fff;
+            border-radius: 4px;
+            background: #82ce34;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            border: none;
+        }
+
+            .modal-confirm .btn:hover, .modal-confirm .btn:focus {
+                background: #6fb32b;
+                outline: none;
+            }
+
+    .trigger-btn {
+        display: inline-block;
+        margin: 100px auto;
+    }
+
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1030;
+        background-color: #333333;
+        opacity: 0.1;
+    }
 </style>
 <div class="container-all" style="height:670px;padding:10px; display:flex;flex-direction:row;position:absolute;width:83%;top:60px;">
 
@@ -41,33 +156,36 @@
             <div class="word-container" id="word-container" style="overflow:hidden;height:100%;">
                 @for (var i = 0; i < listTV.Count(); i++)
                 {
-                <div id="@i" class="word-section" style="width:100%;height:100%;padding-top:10px;">
-                    <div class="picture-container" style="display:flex;flex-direction:column;height:50%;width:100%; display:flex;justify-content:center;align-items:center;margin-top:10px;">
-                        <div class="picture" style="width:50%;height:90%;border-radius:2rem;background-color: rgba(255, 255, 255,1);background-image:url('@listTV[i].ANHTUVUNG');background-size:50% 100%;background-repeat:no-repeat;background-position:center;opacity:0.8">
+                    <div id="@i" class="word-section" style="width:100%;height:100%;padding-top:10px;">
+                        <div class="picture-container" style="display:flex;flex-direction:column;height:50%;width:100%; display:flex;justify-content:center;align-items:center;margin-top:10px;">
+                            <div class="picture" style="width:50%;height:90%;border-radius:2rem;background-color: rgba(255, 255, 255,1);background-image:url('@listTV[i].ANHTUVUNG');background-size:50% 100%;background-repeat:no-repeat;background-position:center;opacity:0.8">
+                            </div>
+                            <h5 style="margin-top:10px;text-transform:capitalize;color:white;">@listTV[i].NGHIATV</h5>
                         </div>
-                        <h5  style="margin-top:10px;text-transform:capitalize;color:white;">@listTV[i].NGHIATV</h5>
-                    </div>
-                    <div class="answer-container" style="height:50%;width:100%;padding:25px 40px 55px 40px;">
-                        <div class="word-container-frame" id="@listTV[i].TENTV" style="width:100%;height:100%;display:flex;flex-direction:row;flex-wrap:wrap;">
-                            @{
-                                List<TUVUNGONTAP> list2 = listTV.Where(t => t.TENTV != listTV[i].TENTV).ToList();
-                                var list3 = list2.OrderBy(t => randn.Next()).Take(3).ToList();
-                                list3.Add(listTV[i]);
-                                foreach (var item1 in list3.OrderBy(t=>randn.Next()).ToList())
-                                {
-                                    <div class="btn-answer-frame" id="@listTV[i].NGHIATV" style="width:50%;height:50%;padding:10px;">
-                                        <button id="@item1.NGHIATV" class="btn-answer" style="width:100%;height:100%;border-radius:.5rem;background-color:rgba(255,255,255,0.7);outline:none">@item1.TENTV</button>
-                                    </div>
+                        <div class="answer-container" style="height:50%;width:100%;padding:25px 40px 55px 40px;">
+                            <div class="word-container-frame" id="@listTV[i].TENTV" style="width:100%;height:100%;display:flex;flex-direction:row;flex-wrap:wrap;">
+                                @{
+                                    List<TUVUNGONTAP> list2 = listTV.Where(t => t.TENTV != listTV[i].TENTV).ToList();
+                                    var list3 = list2.OrderBy(t => randn.Next()).Take(3).ToList();
+                                    list3.Add(listTV[i]);
+                                    foreach (var item1 in list3.OrderBy(t => randn.Next()).ToList())
+                                    {
+                                        <div class="btn-answer-frame" id="@listTV[i].NGHIATV" style="width:50%;height:50%;padding:10px;">
+                                            <button id="@item1.NGHIATV" class="btn-answer" style="width:100%;height:100%;border-radius:.5rem;background-color:rgba(255,255,255,0.7);outline:none">@item1.TENTV</button>
+                                        </div>
+                                    }
+
                                 }
-
-                            }
+                            </div>
                         </div>
                     </div>
-                </div>
-                            }
+                }
+                <div id="@listTV.Count()" class="word-section" style="width:100%;height:100%;padding-top:10px;">
 
+                </div>
             </div>
         </section>
+
     </div>
     <div class="match-result" style="border-radius: .5rem; background-color: rgba(251, 248, 226,0.7); width: 38%; margin-left: 15px;">
         <div class="card-container" style="height:100%;">
@@ -95,7 +213,7 @@
             <div class="edit-delete1" style="padding:5px 20px;position:absolute;bottom:-10px;height:125px;left:0;width:100%;margin:15px 0 ;">
                 <div style="display:flex;flex-direction:row;justify-content:space-between; width:100%; height:45%; ">
                     <Button class="btn-edit" style="width:100%; height:100%;border-radius:2rem;border:1px solid grey;background-color:rgba(255,255,255,0.5);">CHI TIẾT</Button>
-                    <a style="width:100%;" href="/Vocabulary/wordCorrect?id=@tuple.Item2"><Button class="btn-edit" style="border: 1px solid grey; width: 100%; height: 100%; border-radius: 2rem;background-color:rgba(255,255,255,0.5); ">LUYỆN TẬP LẠI</Button></a>
+                    <a style="width:100%;" href="/Vocabulary/pictureMeaning?id=@tuple.Item2"><Button class="btn-edit" style="border: 1px solid grey; width: 100%; height: 100%; border-radius: 2rem;background-color:rgba(255,255,255,0.5); ">LUYỆN TẬP LẠI</Button></a>
                 </div>
                 <div style="width:100%; height:45%;margin-top:10px;">
                     <a href="/Vocabulary/practice?id=@tuple.Item2"><Button class="btn-edit" style="width:100%; height:100%;border-radius:2rem;border: 1px solid grey;background-color:rgba(255,255,255,0.5);">KẾT THÚC</Button></a>
@@ -104,6 +222,26 @@
             </div>
 
 
+        </div>
+    </div>
+</div>
+
+
+<div id="myModal1" class="modal">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE876;</i>
+                </div>
+                <h4 class="modal-title w-100">Tuyệt vời !</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Bạn vừa hoàn thành bài luyện tập.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success btn-block" data-dismiss="modal">Đồng ý</button>
+            </div>
         </div>
     </div>
 </div>
@@ -134,6 +272,8 @@
             console.log(checktt);
             if ($(this).attr("id") == $(this).parent().attr("id")) {
                 var wordcorrect = $(this).parent().parent().attr("id");
+                $(this).css("background-color", "rgb(78, 177, 78)");
+                $(this).css("color", "white");
                 setTimeout(function () {
                     responsiveVoice.speak("Correct", "UK English Female", { volume: 1, rate: 0.75 });
                 }, 250);
@@ -151,15 +291,22 @@
 
                     document.getElementById("tld").textContent = "SỐ CÂU TRẢ LỜI ĐÚNG LÀ : " + tld;
                 }
-                
+
                 setTimeout(function () {
                     temp++;
                     document.getElementById(temp).scrollIntoView();
                     checktt = false;
+                    if (temp == @idtrangkt) {
+                        $(`#myModal1`).modal('show');
+                        responsiveVoice.speak("Congratulations", "UK English Female", { volume: 1, rate: 1 });
+                }
                 }, 2000);
-                
+
+
             }
             else {
+                $(this).css("background-color", "#dc3545");
+                $(this).css("color", "white");
                 if (checktt == false) {
                     tls++;
                     var node = document.createElement("li");
@@ -178,12 +325,7 @@
             }
         });
 
-        $(`.btn-answer`).mouseenter(function () {
-            $(this).css("background-color", "rgba(255,255,255,1)");
-        });
-        $(`.btn-answer`).mouseleave(function () {
-            $(this).css("background-color", "rgba(255,255,255,0.7)");
-        });
+
     });
 </script>
 

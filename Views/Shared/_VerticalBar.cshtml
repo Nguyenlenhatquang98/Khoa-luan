@@ -11,21 +11,35 @@
 <style>
     .navbar2 {
         z-index: 1;
+        background-image:url('../../Img/vertical background.jpg');
+        background-size:100% 100%;
+        background-color:rgba(255,255,255,0.2);
+        background-blend-mode:lighten;
     }
+    .account, .vocabulary, .Group, .Exam {
+        width: 100%;
+        height:100px;
+        display:flex;
+        justify-content:center;
+        padding:35px 0;
+        background-image:url(../../Img/thumuc.png);
+        background-size:100% 100%;
+    }
+    
 </style>
-<div class="navbar2" style="width:15%;background-color:white;border:none;box-shadow:0 0 7px gray;position:fixed;top:43px;">
+<div class="navbar2" style="width:15%;border:none;box-shadow:0 0 7px gray;position:fixed;top:43px;padding:0;">
     <div class="account">
-        @Html.ActionLink("Tài khoản", "AccountInfo", "Account", new { id = account.IDTK }, new { @class = "btn ", @style = "border:none;color:rgb(115, 115, 115);font-weight:600;margin-top: 10px;border-radius:0;border:1px solid rgb(230, 230, 230);" })
+        @Html.ActionLink("Tài khoản", "AccountInfo", "Account", new { id = account.IDTK }, new { @class = "btn", @style = "border:none;color:white;font-size:1.25rem;font-weight:600;border-radius:0;border-radius:0.5rem;height:65px;width:212px;" })
     </div>
     <div class="vocabulary">
-        @Html.ActionLink("Từ vựng", "Index", "Vocabulary", null ,new { @class = "btn ", @style = "border:none;color:rgb(115, 115, 115);font-weight:600;margin-top: 10px;border-radius:0;border:1px solid rgb(230, 230, 230);" })
+        @Html.ActionLink("Từ vựng", "Index", "Vocabulary", null ,new { @class = "btn", @style = "border:none;color:white;font-size:1.25rem;font-weight:600;border-radius:0;border-radius:0.5rem;height:65px;width:212px;" })
     </div>
 
     <div class="Exam">
-        @Html.ActionLink("Luyện tập", "Index", "Exam", null,new { @class = "btn ", @style = "border:none;color:rgb(115, 115, 115);font-weight:600;margin-top: 10px;border-radius:0;border:1px solid rgb(230, 230, 230);" })
+        @Html.ActionLink("Bài tập", "Index", "Exam", null,new { @class = "btn", @style = "border:none;color:white;font-size:1.25rem;font-weight:600;border-radius:0;border-radius:0.5rem;height:65px;width:212px;" })
     </div>
     <div class="Group">
-        @Html.ActionLink("Học nhóm", "Group", "Account",null, new { @class = "btn ", @style = "border:none;color:rgb(115, 115, 115);font-weight:600;margin-top: 10px;border-radius:0;border:1px solid rgb(230, 230, 230);" })
+        @Html.ActionLink("Học nhóm", "Group", "Account",null, new { @class = "btn", @style = "border:none;color:white;font-size:1.25rem;font-weight:600;border-radius:0;border-radius:0.5rem;height:65px;width:212px;" })
     </div>
 
 

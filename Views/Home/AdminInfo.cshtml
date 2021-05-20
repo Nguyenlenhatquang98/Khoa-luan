@@ -6,8 +6,10 @@
 }
 
 <style>
+    
+
     .account a {
-        background-color: rgb(230, 230, 230);
+        background-color: rgba(0, 0, 0,0.2);
     }
 
     body {
@@ -133,7 +135,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2" for="email">Email</label>
                 <div class="col-md-10">
-                    <input type="text" name="email" class="mt-2 w-100 mb-2" value="@Model.EMAIL">
+                    <input type="email" name="email" class="mt-2 w-100 mb-2" value="@Model.EMAIL">
                 </div>
             </div>
 
@@ -147,7 +149,7 @@
             <div class="form-group">
                 @Html.Label("Số điện thoại", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <input type="text" name="phone" class="mt-2 w-100 mb-2" value="@Model.SODT">
+                    <input type="tel"  pattern="[0-9]{10,}" name="phone" class="mt-2 w-100 mb-2" value="@Model.SODT">
                 </div>
             </div>
             <input type="text" name="id" value="@Model.IDTTTK" style="opacity:0;" />

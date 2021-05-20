@@ -7,8 +7,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
 <style>
-    .vocabulary a{
-        background-color: rgb(230, 230, 230);
+    .vocabulary a {
+        background-color: rgba(0, 0, 0,0.2);
     }
     body {
         background-image: url(https://kidsgoflash.com/wp-content/uploads/2017/02/kidsgoflash_sky_birds2.jpg);
@@ -34,20 +34,20 @@
 } 
 <p id="checkTVCount" style="opacity:0;font-size:.1px;">@listTVCount</p>
 <div class="Practises-container" style="margin:40px 20px 0 15px;height:550px;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-between;overflow:auto;position:absolute;width:75%;left:300px;top:130px;padding:10px;">
-    <div class="Practices-item" style="box-shadow:0 0 5px grey;" >
+    <div class="Practices-item" style="padding:10px;color:rgba(255,255,255,0.7); background-color:rgba(255,255,255,0.1); background-image:url(../../Img/asset/frame.png);background-size:100% 100%;background-blend-mode:lighten;" >
         <h2>Nối ô chữ</h2>
         <p>Nối chính xác các từ giữa 2 cột</p>
-        @Html.ActionLink("Luyện tập", "match", new { id = id},new { id="match"})
+        @Html.ActionLink("Luyện tập", "match", new { id = id},new { id="match", @style="background-image:url(../../Img/asset/btn-chude.png);background-size:100% 100%;color:white;padding-top:8px;border:none;"})
     </div>
-    <div class="Practices-item" style="box-shadow:0 0 5px grey;">
+    <div class="Practices-item" style="padding:10px;color:rgba(255,255,255,0.7); background-color:rgba(255,255,255,0.1); background-image:url(../../Img/asset/frame.png);background-size:100% 100%;background-blend-mode:lighten;">
         <h2>Sắp xếp chữ cái</h2>
         <p>Sắp xếp chữ cái sao cho có nghĩa </p>
-        @Html.ActionLink("Luyện tập", "wordCorrect", new { id = id })
+        @Html.ActionLink("Luyện tập", "wordCorrect", new { id = id }, new { @style = "background-image:url(../../Img/asset/btn-chude.png);background-size:100% 100%;color:white;padding-top:8px;border:none;" })
     </div>
-    <div class="Practices-item" style="box-shadow:0 0 5px grey;">
-        <h2>Chọn từ tương ứng</h2>
-        <p>Chọn từ có nghĩa phù hợp nhất với hình ảnh</p>
-        @Html.ActionLink("Luyện tập", "pictureMeaning", new { id = id })
+    <div class="Practices-item" style="padding:10px;color:rgba(255,255,255,0.7); background-color:rgba(255,255,255,0.1); background-image:url(../../Img/asset/frame.png);background-size:100% 100%;background-blend-mode:lighten;">
+        <h2>Chọn từ phù hợp</h2>
+        <p>Chọn từ phù hợp nhất với hình ảnh</p>
+        @Html.ActionLink("Luyện tập", "pictureMeaning", new { id = id }, new { @style = "background-image:url(../../Img/asset/btn-chude.png);background-size:100% 100%;color:white;padding-top:8px;border:none;" })
     </div>
 </div>
 

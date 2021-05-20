@@ -22,11 +22,11 @@ namespace KhoaLuanTotNghiep.Controllers
             List<PHONGLUYENTAP> listpt = new List<PHONGLUYENTAP>();
             if (findExam == null)
             {
-                listpt = model.PHONGLUYENTAPs.ToList();
+                listpt = model.PHONGLUYENTAPs.Where(t=>t.SOCAUHOI>0).ToList();
             }
             else
             {
-                listpt = model.PHONGLUYENTAPs.Where(t => t.TENPHONG.ToLower().Contains(findExam.ToLower())).ToList();
+                listpt = model.PHONGLUYENTAPs.Where(t => t.SOCAUHOI > 0).Where(t => t.TENPHONG.ToLower().Contains(findExam.ToLower())).ToList();
             }
             List<TAIKHOANPHONGLUYENTAP> listtkpt = model.TAIKHOANPHONGLUYENTAPs.ToList();
 

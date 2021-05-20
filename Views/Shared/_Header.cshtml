@@ -55,7 +55,7 @@
         @{
             string[] tachten = null;
             string ten = null;
-            if (Model.TEN.Length > 10)
+            if (Model.TEN.Length > 8)
             {
                 tachten = Model.TEN.Split(' ');
                 ten = tachten[tachten.Length - 1];
@@ -195,23 +195,23 @@
                     <input type="text" name="password" class="mt-2 w-100" placeholder="Mật khẩu ..." required><br>
                     <label class="mt-2">Ngày sinh:</label>
                     <div class="birthday">
-                        <select name="day" id="day" required>
+                        <select name="day" id="day" style="width:32.5%;" required>
                             <option value="0">Ngày</option>
                             @for (int i = 1; i < 32; i++)
                             {
                                 <option value="@i">@i</option>
                             }
                         </select>
-                        <select name="month" id="month" required>
+                        <select name="month" id="month" style="width:32.5%;" required>
                             <option value="0">Tháng</option>
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
                             }
                         </select>
-                        <select name="year" id="year" required>
+                        <select name="year" id="year" style="width:32.5%;" required>
                             <option value="0">Năm</option>
-                            @for (int i = DateTime.Now.Year - 100; i < DateTime.Now.Year + 100; i++)
+                            @for (int i = DateTime.Now.Year - 100; i <= DateTime.Now.Year; i++)
                             {
                                 <option value="@i">@i</option>
                             }

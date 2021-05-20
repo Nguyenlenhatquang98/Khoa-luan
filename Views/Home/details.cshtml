@@ -13,8 +13,9 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <style>
+  
     .vocabulary a {
-        background-color: rgb(230, 230, 230);
+        background-color: rgba(0, 0, 0,0.2);
     }
 
     .navtv {
@@ -82,9 +83,9 @@
 
             <div class="container-fluid navtv" style=" height: 40px; width: 100%; display: flex; align-items: center; justify-content: flex-end; position: fixed;top:80px;width:100%;left:0;">
                 <h2 style="margin-right:140px;">Danh sách thẻ</h2>
-                <input type="text" name="searchWord" placeholder="Word ..." style="border-radius:2rem; padding-left:20px;outline:none;width:22%;height:100%;border:none;background-color:rgb(234, 234, 225);margin-right:590px;" />
+                <input type="text" name="searchWord" placeholder="Tên từ vựng ..." style="border-radius:2rem; padding-left:20px;outline:none;width:22%;height:100%;border:none;background-color:rgb(234, 234, 225);margin-right:590px;" />
                 <input type="submit" value="Search" style="position:absolute;right:15px;height:100%;border-radius:2rem;width:5%;display:flex;align-items:center;justify-content:center; background-color:rgb(30, 47, 47); color:white;margin-right:590px;" />
-                <button type="button" class="btn-danger" style="outline:none;position: absolute; right: 480px; padding: 7px 20px; color: white; font-weight: 600; border-radius: 2rem;" data-toggle="modal" data-target="#myModalFile">Thêm File</button>
+                <button type="button"  style="outline:none;position: absolute; right: 480px; padding: 7px 20px; color: white; font-weight: 600; border-radius: 2rem;border:none;background-image:url(../../Img/asset/greenmore-btn.png);background-size:100% 100%;" data-toggle="modal" data-target="#myModalFile">Thêm File</button>
 
             </div>
             @if (listTV != null)

@@ -240,9 +240,9 @@ namespace KhoaLuanTotNghiep.Controllers
             THONGTINTAIKHOAN accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == account.IDTK).SingleOrDefault();
             List<TUVUNGONTAP> listTV = model.TUVUNGONTAPs.Where(t => t.CHUDE.IDCD == id).ToList();
             List<TUVUNGONTAP> listTV1 = new List<TUVUNGONTAP>();
-            if (listTV.Count > 7)
+            if (listTV.Count > 5)
             {
-                 listTV1 = listTV.OrderBy(t => rnd.Next()).Take(7).ToList();
+                 listTV1 = listTV.OrderBy(t => rnd.Next()).Take(5).ToList();
             }
             else
             {

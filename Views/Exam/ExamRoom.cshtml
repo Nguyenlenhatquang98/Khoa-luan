@@ -32,12 +32,12 @@
         background-position: center top;
         background-size: cover;
         background-repeat: no-repeat;
-
     }
 
     .Exam a {
-        background-color: rgb(230, 230, 230);
+        background-color: rgba(0, 0, 0,0.2);
     }
+
 
     .Practice-container section:not(:first-child) {
         margin-top: 45px;
@@ -141,6 +141,7 @@
         background-color: #333333;
         opacity: 0.1;
     }
+    
 </style>
 
 @{
@@ -187,7 +188,7 @@
             {
                 <div id="@(i1)" style="width:100%;height:100%;padding:45px;">
                     <section style="width:100%;height:100%;position:relative;">
-                    
+
                         @if (item.ANHTUVUNG != null)
                         {
                             <div class="container-word" style="color: white; height: 50%;width:60%; margin: 10px auto; display: flex; justify-content: center; align-items: center;display:flex;flex-direction:column;">
@@ -251,7 +252,7 @@
                 }
             </div>
         </div>
-        <button style="margin:0 20px 0 20px;width:195px;padding:10px 0;border-radius:.5rem;background-color:rgb(128, 255, 255)" data-toggle="modal" data-target="#mi-modal">
+        <button style="border:none;margin:0 20px 0 20px;width:195px;padding:10px 0;border-radius:.75rem;background-image:url(../../Img/button.png);background-size:100% 100%;" data-toggle="modal" data-target="#mi-modal">
             Nộp bài
         </button>
     </div>
@@ -259,8 +260,8 @@
 
 <div class="ds-tv" style="margin-right:-50px;margin-top:-648px;width:18%;float:right;height:680px;position:relative;">
     <div id="card-front" class="card front" style="width:100%; height:100%;background-color:rgba(255,255,255,0.7);">
-        <header style="border:1px solid gray; height:50px; display:flex;justify-content:center;align-items:center;font-weight:600; font-size:1.5rem;">Bảng xếp hạng</header>
-        <div class="account-container" style="border:1px solid gray; height:660px; overflow:auto;">
+        <header style="height:90px;margin:20px 0 10px 0; display:flex;justify-content:center;color:white;padding-top:8px;font-weight:600; font-size:1.25rem;background-image:url(../../Img/asset/bangxephang.png);background-size:100% 100%;">Bảng xếp hạng</header>
+        <div class="account-container" style=" height:660px; overflow:auto;">
             <ul style="list-style:none;margin-left:-40px;">
                 @{
                     int i = 0;
@@ -269,29 +270,117 @@
                 {
                     i++;
                     THONGTINTAIKHOAN accountinfo = model.THONGTINTAIKHOANs.Where(t => t.IDTK == item.IDTK).SingleOrDefault();
-                    <li style="text-align:center; padding:5px;">
-                        <div style="background-color:#f2f2f2;height:50px;margin-bottom:-15px; display:flex;flex-direction:row;justify-content:space-around;align-items:center;">
-                            <h5 style="margin-top:5px;">@i.</h5>
-                            @{
 
-                                string[] tachten = null;
-                                string ten = null;
-                                if (accountinfo.TEN.Length > 10)
-                                {
-                                    tachten = accountinfo.TEN.Split(' ');
-                                    ten = tachten[tachten.Length - 1];
-                                    <h5 style="margin-top:5px;">@ten</h5>
-                                }
-                                else
-                                {
-                                    <h5 style="margin-top:5px;">@accountinfo.TEN</h5>
-                                }
-                            }
+                    if (i == 1)
+                    {
+                        <li style="text-align:center; padding:5px;">
+                            <div style="height:50px;margin-bottom:-15px; display:flex;flex-direction:row;justify-content:space-around;align-items:center;background-image:url(../../Img/asset/background-medal.png);background-size:100% 100%;">
+                                <div class="medal" style="width: 40px;height:100%; background-image: url(../../Img/asset/1.png); background-size: 100% 100%;">
 
-                            <p style="margin-top:15px;">@item.DIEMTHI</p>
-                        </div>
-                    </li>
-                    <hr style="margin-bottom:1px;" />
+                                </div>
+                                @{
+
+                                    string[] tachten = null;
+                                    string ten = null;
+                                    if (accountinfo.TEN.Length > 8)
+                                    {
+                                        tachten = accountinfo.TEN.Split(' ');
+                                        ten = tachten[tachten.Length - 1];
+                                        <h5 style="margin-top:5px;color:white;">@ten</h5>
+                                    }
+                                    else
+                                    {
+                                        <h5 style="margin-top:5px;color:white;">@accountinfo.TEN</h5>
+                                    }
+                                }
+
+                                <p style="margin-top:15px; color:white;">@item.DIEMTHI</p>
+                            </div>
+                        </li>
+                    }
+                    else if (i == 2)
+                    {
+                        <li style="text-align:center; padding:5px;">
+                            <div style="height:50px;margin-bottom:-15px; display:flex;flex-direction:row;justify-content:space-around;align-items:center;background-image:url(../../Img/asset/background-medal.png);background-size:100% 100%;">
+                                <div class="medal" style="width: 40px;height:100%; background-image: url(../../Img/asset/2.png); background-size: 100% 100%;">
+
+                                </div>
+                                @{
+
+                                    string[] tachten = null;
+                                    string ten = null;
+                                    if (accountinfo.TEN.Length > 8)
+                                    {
+                                        tachten = accountinfo.TEN.Split(' ');
+                                        ten = tachten[tachten.Length - 1];
+                                        <h5 style="margin-top:5px;color:white;">@ten</h5>
+                                    }
+                                    else
+                                    {
+                                        <h5 style="margin-top:5px;color:white;">@accountinfo.TEN</h5>
+                                    }
+                                }
+
+                                <p style="margin-top:15px; color:white;">@item.DIEMTHI</p>
+                            </div>
+                        </li>
+                    }
+                    else if (i == 3)
+                    {
+                        <li style="text-align:center; padding:5px;">
+                            <div style="height:50px;margin-bottom:-15px; display:flex;flex-direction:row;justify-content:space-around;align-items:center;background-image:url(../../Img/asset/background-medal.png);background-size:100% 100%;">
+                                <div class="medal" style="width: 40px;height:100%; background-image: url(../../Img/asset/3.png); background-size: 100% 100%;">
+
+                                </div>
+                                @{
+
+                                    string[] tachten = null;
+                                    string ten = null;
+                                    if (accountinfo.TEN.Length > 8)
+                                    {
+                                        tachten = accountinfo.TEN.Split(' ');
+                                        ten = tachten[tachten.Length - 1];
+                                        <h5 style="margin-top:5px;color:white;">@ten</h5>
+                                    }
+                                    else
+                                    {
+                                        <h5 style="margin-top:5px;color:white;">@accountinfo.TEN</h5>
+                                    }
+                                }
+
+                                <p style="margin-top:15px; color:white;">@item.DIEMTHI</p>
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li style="text-align:center; padding:5px;">
+                            <div style="height:50px;margin-bottom:-15px; display:flex;flex-direction:row;justify-content:space-around;align-items:center;background-image:url(../../Img/asset/background-medal.png);background-size:100% 100%;">
+                                <div class="medal" id="@i" style="margin-left:5px;height:100%; width:40px; background-image: url(../../Img/asset/lonhon3.png); background-size: 100% 100%;">
+                                    <h5 style="margin-top:5px;">@i</h5>
+                                </div>
+                                @{
+
+                                    string[] tachten = null;
+                                    string ten = null;
+                                    if (accountinfo.TEN.Length > 8)
+                                    {
+                                        tachten = accountinfo.TEN.Split(' ');
+                                        ten = tachten[tachten.Length - 1];
+                                        <h5 style="margin-top:5px;color:white;">@ten</h5>
+                                    }
+                                    else
+                                    {
+                                        <h5 style="margin-top:5px;color:white;">@accountinfo.TEN</h5>
+                                    }
+                                }
+
+                                <p style="margin-top:15px; color:white;">@item.DIEMTHI</p>
+                            </div>
+                        </li>
+                    }
+
+                    <br style="margin-bottom:1px;" />
                 }
             </ul>
         </div>
@@ -433,6 +522,7 @@
                     $(`.soctld`).text(dem);
                     $(`.diem`).val(dem);
                     $(`#myModal1`).modal('show');
+                    responsiveVoice.speak("Finish", "UK English Female", { volume: 1, rate: 0.75 });
                 }
 
         },1000);
@@ -587,11 +677,11 @@
             $(`.diem`).val(dem);
         });
 
-    
-      
+       
+
     });
 
-    
+
 
 
 </script>

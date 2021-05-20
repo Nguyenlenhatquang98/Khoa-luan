@@ -594,6 +594,7 @@ namespace KhoaLuanTotNghiep.Controllers
         public ActionResult DeleteExam(int id)
         {
             PHONGLUYENTAP plt = model.PHONGLUYENTAPs.Where(t => t.IDPLT == id).SingleOrDefault();
+            List<TAIKHOANPHONGLUYENTAP> tkplt = model.TAIKHOANPHONGLUYENTAPs.Where(t => t.IDPLT == id).ToList();
             if(plt.TUVUNGPHONGLUYENTAPs.Count > 0)
             {
                 foreach(var item in plt.TUVUNGPHONGLUYENTAPs.ToList())
@@ -601,13 +602,39 @@ namespace KhoaLuanTotNghiep.Controllers
                     model.TUVUNGPHONGLUYENTAPs.Remove(item);
                     model.SaveChanges();
                 }
-                model.PHONGLUYENTAPs.Remove(plt);
-                model.SaveChanges();
+                if(tkplt.Count() > 0)
+                {
+                    foreach(var item1 in tkplt)
+                    {
+                        model.TAIKHOANPHONGLUYENTAPs.Remove(item1);
+                        model.SaveChanges();
+                    }
+                    model.PHONGLUYENTAPs.Remove(plt);
+                    model.SaveChanges();
+                }
+                else
+                {
+                    model.PHONGLUYENTAPs.Remove(plt);
+                    model.SaveChanges();
+                }
             }
             else
             {
-                model.PHONGLUYENTAPs.Remove(plt);
-                model.SaveChanges();
+                if (tkplt.Count() > 0)
+                {
+                    foreach (var item1 in tkplt)
+                    {
+                        model.TAIKHOANPHONGLUYENTAPs.Remove(item1);
+                        model.SaveChanges();
+                    }
+                    model.PHONGLUYENTAPs.Remove(plt);
+                    model.SaveChanges();
+                }
+                else
+                {
+                    model.PHONGLUYENTAPs.Remove(plt);
+                    model.SaveChanges();
+                }
             }
             return RedirectToAction("Practice");
         }
@@ -733,6 +760,10 @@ namespace KhoaLuanTotNghiep.Controllers
                         tv.IDPLT = idPLT;
                         model.TUVUNGPHONGLUYENTAPs.Add(tv);
                         model.SaveChanges();
+                        PHONGLUYENTAP plt = model.PHONGLUYENTAPs.Where(t => t.IDPLT == idPLT).SingleOrDefault();
+                        plt.SOCAUHOI = model.TUVUNGPHONGLUYENTAPs.Where(t => t.IDPLT == idPLT).ToList().Count();
+                        model.SaveChanges();
+
                     }
                     return RedirectToAction("FixExam", new { id = idPLT });
                 }

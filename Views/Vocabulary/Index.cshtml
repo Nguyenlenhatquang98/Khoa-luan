@@ -12,13 +12,10 @@
 }
 <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
 <style>
-    .vocabulary a {
-        background-color: rgb(230, 230, 230);
-    }
+    
 
-  
     .navcd {
-        position:relative;
+        position: relative;
     }
         .navcd::after {
             position: absolute;
@@ -39,6 +36,9 @@
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
+    }
+    .vocabulary a {
+        background-color: rgba(0, 0, 0,0.2);
     }
 
 </style>
@@ -70,7 +70,7 @@
 
                     </div>
                     <div style="width:90%;display:flex;flex-direction:row;height:50px;position:relative;margin-top:10px;margin-left:50%;transform:translateX(-50%);">
-                        @Html.ActionLink(std.TENCD.ToUpper(), "details", "Vocabulary", new { id = std.IDCD }, new { @style = "box-shadow:0 0 5px grey; border-radius:2rem;width:100%;height:100%;position:absolute;display:flex;justify-content:center;align-items:center;background-color:white;font-weight:600;" })
+                        @Html.ActionLink(std.TENCD.ToUpper(), "details", "Vocabulary", new { id = std.IDCD }, new { @style = "color:white;box-shadow:0 0 5px grey; border-radius:2rem;width:100%;height:100%;position:absolute;display:flex;justify-content:center;padding-top:8px;font-weight:600;background-image:url(../../Img/asset/btn-chude.png);background-size:100% 100%;)" })
                         @*@Html.ActionLink("Luyện tập", "practice", "Vocabulary", new { id = std.IDCD }, new {  @style = "border:2px solid gray; border-radius:2rem; margin-left:102px;width:45%;height:100%;position:absolute;display:flex;justify-content:center;align-items:center;background-color:white;font-weight:600;" })*@
                     </div>
 
